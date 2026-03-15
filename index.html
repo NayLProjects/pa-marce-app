@@ -8,91 +8,128 @@
 html,body{height:100%;overflow:hidden;background:#1a1a2e}
 body{display:flex;align-items:center;justify-content:center;font-family:'Nunito',sans-serif}
 
-/* SHELL - Xiaomi 14 */
+/* SHELL fijo - Xiaomi 14 */
 .shell{
-  width:393px;height:852px;
-  background:#fff;overflow:hidden;position:relative;
-  display:flex;flex-direction:column;
+  width:393px;
+  height:852px;
+  background:#fff;
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+  position:relative;
   border-radius:40px;
   box-shadow:0 0 0 10px #111,0 0 0 12px #333,0 30px 60px rgba(0,0,0,.5)
 }
+
+/* STATUS BAR */
 .sb{
-  flex-shrink:0;height:38px;
+  flex:0 0 38px;
   background:linear-gradient(135deg,#ff6b6b,#ee5a24 50%,#f9ca24);
   display:flex;align-items:center;justify-content:space-between;
   padding:0 18px;font-size:11px;font-weight:700;color:#fff
 }
 
-/* SCREENS */
-.sc{display:none;flex-direction:column;flex:1;min-height:0}
+/* SCREENS — cada uno ocupa el espacio restante con flex column */
+.sc{
+  display:none;
+  flex-direction:column;
+  /* clave: toma el espacio restante pero NO más que eso */
+  flex:1 1 0;
+  min-height:0;
+  overflow:hidden
+}
 .sc.on{display:flex}
 
-/* NAV - fijo en el fondo de cada screen */
+/* NAV — siempre al fondo, nunca se mueve */
 .nav{
-  flex-shrink:0;display:flex;
-  background:#fff;border-top:1px solid #eee;
-  padding:6px 0 12px
+  flex:0 0 auto;
+  display:flex;
+  background:#fff;
+  border-top:1.5px solid #ececec;
+  padding:6px 0 14px
 }
 .nb{
   flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;
   background:none;border:none;cursor:pointer;
   font-family:'Nunito';font-size:9px;font-weight:700;color:#bbb;padding:2px 0
 }
-.nb.on{color:#ee5a24}
-.ni{font-size:20px}
+.nb.activo{color:#ee5a24}
+.ni{font-size:20px;line-height:1.2}
 
-/* ===== S1 INICIO ===== */
+/* ========== S1 INICIO ========== */
 #s1{background:linear-gradient(160deg,#fff9e6,#fff0f0 40%,#e8f5ff)}
+
+/* contenido scrollable de inicio */
 .s1body{
-  flex:1;overflow-y:auto;
-  display:flex;flex-direction:column;align-items:center;
-  padding:20px 18px 10px;text-align:center
+  flex:1 1 0;
+  min-height:0;
+  overflow-y:auto;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:18px 18px 8px;
+  text-align:center
 }
 .badge{
   background:linear-gradient(135deg,#ff6b6b,#ee5a24);color:#fff;
   font-size:10px;font-weight:800;letter-spacing:1px;
-  padding:5px 16px;border-radius:999px;margin-bottom:14px;
+  padding:5px 16px;border-radius:999px;margin-bottom:12px;
   text-transform:uppercase;display:inline-block
 }
-.hero{font-size:64px;margin-bottom:4px;animation:bo 2s infinite}
+.hero{font-size:62px;margin-bottom:4px;animation:bo 2s infinite}
 @keyframes bo{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
-.wtitle{font-family:'Pacifico',cursive;font-size:22px;color:#1a1a2e;line-height:1.3;margin-bottom:8px}
-.wsub{font-size:13px;color:#666;margin-bottom:16px;line-height:1.55}
-.ily{font-size:66px;animation:pu 1.5s ease-in-out infinite;display:inline-block;margin-bottom:4px}
+.wtitle{font-family:'Pacifico',cursive;font-size:21px;color:#1a1a2e;line-height:1.3;margin-bottom:8px}
+.wsub{font-size:13px;color:#666;margin-bottom:12px;line-height:1.5}
+.ily{font-size:62px;animation:pu 1.5s ease-in-out infinite;display:inline-block;margin-bottom:4px}
 @keyframes pu{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
-.srow{display:flex;gap:9px;margin:14px 0;width:100%}
-.scard{flex:1;background:#fff;border-radius:16px;padding:12px 6px;text-align:center;box-shadow:0 4px 14px rgba(0,0,0,.08)}
-.se{font-size:20px}.sn{font-size:17px;font-weight:900;color:#1a1a2e;margin:3px 0}.sl{font-size:10px;color:#888;font-weight:600}
+.srow{display:flex;gap:8px;margin:10px 0;width:100%}
+.scard{flex:1;background:#fff;border-radius:16px;padding:11px 6px;text-align:center;box-shadow:0 4px 14px rgba(0,0,0,.08)}
+.se{font-size:20px}.sn{font-size:16px;font-weight:900;color:#1a1a2e;margin:3px 0}.sl{font-size:10px;color:#888;font-weight:600}
 .bstart{
   width:100%;padding:14px;border-radius:20px;border:none;cursor:pointer;
   background:linear-gradient(135deg,#ff6b6b,#ee5a24);color:#fff;
   font-family:'Nunito';font-size:16px;font-weight:800;
-  box-shadow:0 6px 18px rgba(238,90,36,.4);margin-top:4px;margin-bottom:4px
+  box-shadow:0 6px 18px rgba(238,90,36,.4);margin-top:6px
 }
 .bstart:active{transform:scale(.97)}
 
-/* ===== S2 MENU ===== */
+/* ========== S2 MENÚ ========== */
 #s2{background:#f8f9ff}
-.s2h{flex-shrink:0;background:linear-gradient(135deg,#43c6ac,#191654);padding:14px 16px 18px;color:#fff}
+
+.s2h{flex:0 0 auto;background:linear-gradient(135deg,#43c6ac,#191654);padding:13px 16px 16px;color:#fff}
 .s2h h2{font-size:18px;font-weight:900;margin-bottom:2px}
 .s2h p{font-size:11px;opacity:.85}
-.wscroll{flex-shrink:0;display:flex;gap:7px;padding:10px 13px 0;overflow-x:auto;scrollbar-width:none}
+
+.wscroll{
+  flex:0 0 auto;
+  display:flex;gap:7px;
+  padding:10px 13px 0;
+  overflow-x:auto;scrollbar-width:none
+}
 .wscroll::-webkit-scrollbar{display:none}
 .dp{
   flex-shrink:0;padding:7px 12px;border-radius:999px;cursor:pointer;
-  border:2px solid #e0e0e0;background:#fff;font-size:11px;font-weight:700;color:#888;transition:all .2s
+  border:2px solid #e0e0e0;background:#fff;font-size:11px;font-weight:700;color:#888
 }
 .dp.on{
-  background:linear-gradient(135deg,#43c6ac,#191654);border-color:transparent;color:#fff;
+  background:linear-gradient(135deg,#43c6ac,#191654);
+  border-color:transparent;color:#fff;
   box-shadow:0 4px 10px rgba(67,198,172,.4)
 }
-/* Frase motivacional */
-.motiv{flex-shrink:0;margin:9px 13px 0;border-radius:16px;overflow:hidden;box-shadow:0 3px 12px rgba(0,0,0,.10)}
-.mta{background:linear-gradient(135deg,#ffecd2,#fcb69f);padding:11px 14px}
+
+.motiv{flex:0 0 auto;margin:9px 13px 0;border-radius:16px;overflow:hidden;box-shadow:0 3px 12px rgba(0,0,0,.10)}
+.mta{background:linear-gradient(135deg,#ffecd2,#fcb69f);padding:10px 14px}
 .mau{font-size:9px;font-weight:800;color:#8b3a00;text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px}
 .mqt{font-size:12px;font-weight:700;color:#8b3a00;line-height:1.45;font-style:italic}
 
-.mbody{flex:1;overflow-y:auto;padding:10px 13px}
+/* CLAVE: mbody scrollable, flex:1 con min-height:0 */
+.mbody{
+  flex:1 1 0;
+  min-height:0;
+  overflow-y:auto;
+  padding:10px 13px
+}
+
 .mc{background:#fff;border-radius:16px;box-shadow:0 3px 12px rgba(0,0,0,.07);margin-bottom:10px;overflow:hidden}
 .mh{display:flex;align-items:center;justify-content:space-between;padding:11px 13px 7px}
 .mt2{display:flex;align-items:center;gap:6px}
@@ -107,23 +144,32 @@ body{display:flex;align-items:center;justify-content:center;font-family:'Nunito'
 .cps{display:flex;gap:5px;flex-wrap:wrap}
 .cp{
   display:flex;align-items:center;gap:4px;padding:5px 10px;border-radius:999px;
-  border:2px solid #e0f7f1;background:#f0fdf8;font-size:11px;font-weight:700;color:#1b7a62;cursor:pointer
+  border:2px solid #e0f7f1;background:#f0fdf8;
+  font-size:11px;font-weight:700;color:#1b7a62;cursor:pointer
 }
 .cp.on{background:#43c6ac;border-color:#43c6ac;color:#fff}
 .csep{font-size:10px;color:#aaa;align-self:center;font-weight:700}
 
-/* ===== S3 PASTILLAS ===== */
+/* ========== S3 PASTILLAS ========== */
 #s3{background:#f8f0ff}
-.s3h{flex-shrink:0;background:linear-gradient(135deg,#a18cd1,#fbc2eb);padding:14px 16px 18px;color:#fff}
+
+.s3h{flex:0 0 auto;background:linear-gradient(135deg,#a18cd1,#fbc2eb);padding:13px 16px 16px;color:#fff}
 .s3h h2{font-size:18px;font-weight:900}
 .s3h p{font-size:11px;opacity:.85;margin-top:2px}
-/* Frase motivacional pastillas */
-.motiv3{flex-shrink:0;margin:9px 13px 0;border-radius:16px;overflow:hidden;box-shadow:0 3px 12px rgba(0,0,0,.10)}
-.mta3{background:linear-gradient(135deg,#e0c3fc,#c5b5f0);padding:11px 14px}
+
+.motiv3{flex:0 0 auto;margin:9px 13px 0;border-radius:16px;overflow:hidden;box-shadow:0 3px 12px rgba(0,0,0,.10)}
+.mta3{background:linear-gradient(135deg,#e0c3fc,#c5b5f0);padding:10px 14px}
 .mau3{font-size:9px;font-weight:800;color:#3d1a78;text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px}
 .mqt3{font-size:12px;font-weight:700;color:#3d1a78;line-height:1.45;font-style:italic}
 
-.pbody{flex:1;overflow-y:auto;padding:10px 13px}
+/* CLAVE: pbody scrollable, flex:1 con min-height:0 */
+.pbody{
+  flex:1 1 0;
+  min-height:0;
+  overflow-y:auto;
+  padding:10px 13px
+}
+
 .psec{background:#fff;border-radius:16px;padding:13px;margin-bottom:11px;box-shadow:0 3px 12px rgba(0,0,0,.07)}
 .psh{display:flex;align-items:center;gap:8px;margin-bottom:11px}
 .pic2{font-size:24px}.ptl{font-size:14px;font-weight:800;color:#1a1a2e}.pts{font-size:10px;color:#888}
@@ -133,20 +179,21 @@ body{display:flex;align-items:center;justify-content:center;font-family:'Nunito'
 .pdot{width:11px;height:11px;border-radius:50%;flex-shrink:0}
 .pnr{display:flex;align-items:center;gap:4px}
 .pn{font-size:12px;font-weight:700;color:#333}.pef{font-size:15px}
+.pfun{font-size:10px;color:#aaa;margin-top:1px}
 .pch{
   width:28px;height:28px;border-radius:8px;border:2.5px solid #ccc;
-  background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;
-  font-size:16px;transition:all .2s;flex-shrink:0
+  background:#fff;cursor:pointer;display:flex;align-items:center;
+  justify-content:center;font-size:16px;transition:all .2s;flex-shrink:0
 }
-.pch.on{background:#4caf50;border-color:#4caf50}
+.pch.on{background:#4caf50;border-color:#4caf50;color:#fff}
 .prw{text-align:center;padding:10px}
 .prl{font-size:11px;color:#888;font-weight:600;margin-top:5px}
 
 /* CELEBRACIÓN */
 .cel{
-  display:none;position:absolute;inset:0;
+  display:none;position:absolute;inset:0;z-index:100;
   background:linear-gradient(160deg,#1a1a2e,#16213e 50%,#0f3460);
-  z-index:100;flex-direction:column;align-items:center;justify-content:center;
+  flex-direction:column;align-items:center;justify-content:center;
   text-align:center;padding:28px
 }
 .cel.on{display:flex}
@@ -156,101 +203,102 @@ body{display:flex;align-items:center;justify-content:center;font-family:'Nunito'
 .cs{font-size:14px;color:#fff;opacity:.85;line-height:1.6;margin-bottom:24px}
 .cf{font-size:26px;letter-spacing:7px;margin-bottom:18px;animation:sk .5s ease-in-out infinite alternate}
 @keyframes sk{from{transform:translateX(-4px)}to{transform:translateX(4px)}}
-.cbt{padding:12px 28px;border-radius:999px;border:none;cursor:pointer;background:#f9ca24;color:#1a1a2e;font-family:'Nunito';font-size:14px;font-weight:800}
+.cbt{padding:12px 28px;border-radius:999px;border:none;cursor:pointer;
+  background:#f9ca24;color:#1a1a2e;font-family:'Nunito';font-size:14px;font-weight:800}
 </style>
 </head>
 <body>
 <div class="shell">
-<div class="sb"><span>9:41</span><span>❤️ Pa Marce</span><span>🔋 100%</span></div>
+  <div class="sb"><span>9:41</span><span>❤️ Pa Marce</span><span>🔋 100%</span></div>
 
-<!-- S1 INICIO -->
-<div id="s1" class="sc on">
-  <div class="s1body">
-    <div class="badge">🌟 Tu app de salud personal</div>
-    <div class="hero">🤟</div>
-    <h1 class="wtitle">¡Bienvenido Pa Marce,<br>a ver qué comés hoy!</h1>
-    <p class="wsub">Cada día que seguís este plan<br>es un paso hacia tu corazón sano 💪</p>
-    <div class="ily">🤟</div>
-    <div class="srow">
-      <div class="scard"><div class="se">⚖️</div><div class="sn">99 kg</div><div class="sl">Peso actual</div></div>
-      <div class="scard"><div class="se">🎯</div><div class="sn">86 kg</div><div class="sl">Meta</div></div>
-      <div class="scard"><div class="se">📅</div><div class="sn">6 sem</div><div class="sl">Plazo</div></div>
+  <!-- ===== S1 INICIO ===== -->
+  <div id="s1" class="sc on">
+    <div class="s1body">
+      <div class="badge">🌟 Tu app de salud personal</div>
+      <div class="hero">🤟</div>
+      <h1 class="wtitle">¡Bienvenido Pa Marce,<br>a ver qué comés hoy!</h1>
+      <p class="wsub">Cada día que seguís este plan<br>es un paso hacia tu corazón sano 💪</p>
+      <div class="ily">🤟</div>
+      <div class="srow">
+        <div class="scard"><div class="se">⚖️</div><div class="sn">99 kg</div><div class="sl">Peso actual</div></div>
+        <div class="scard"><div class="se">🎯</div><div class="sn">86 kg</div><div class="sl">Meta</div></div>
+        <div class="scard"><div class="se">📅</div><div class="sn">6 sem</div><div class="sl">Plazo</div></div>
+      </div>
+      <button class="bstart" onclick="ir('s2')">¡Ver mi menú de hoy! 🥗</button>
     </div>
-    <button class="bstart" onclick="go('s2')">¡Ver mi menú de hoy! 🥗</button>
+    <div class="nav">
+      <button class="nb activo" onclick="ir('s1')"><span class="ni">🏠</span>Inicio</button>
+      <button class="nb" onclick="ir('s2')"><span class="ni">🥗</span>Menú</button>
+      <button class="nb" onclick="ir('s3')"><span class="ni">💊</span>Pastillas</button>
+    </div>
   </div>
-  <div class="nav">
-    <button class="nb on" onclick="go('s1')"><span class="ni">🏠</span>Inicio</button>
-    <button class="nb" onclick="go('s2')"><span class="ni">🥗</span>Menú</button>
-    <button class="nb" onclick="go('s3')"><span class="ni">💊</span>Pastillas</button>
-  </div>
-</div>
 
-<!-- S2 MENÚ -->
-<div id="s2" class="sc">
-  <div class="s2h"><h2>🥗 Menú semanal</h2><p>Aprobado por tu nutricionista ✅</p></div>
-  <div class="wscroll" id="wscroll"></div>
-  <div class="motiv" id="motiv"></div>
-  <div class="mbody" id="mbody"></div>
-  <div class="nav">
-    <button class="nb" onclick="go('s1')"><span class="ni">🏠</span>Inicio</button>
-    <button class="nb on" onclick="go('s2')"><span class="ni">🥗</span>Menú</button>
-    <button class="nb" onclick="go('s3')"><span class="ni">💊</span>Pastillas</button>
+  <!-- ===== S2 MENÚ ===== -->
+  <div id="s2" class="sc">
+    <div class="s2h"><h2>🥗 Menú semanal</h2><p>Aprobado por tu nutricionista ✅</p></div>
+    <div class="wscroll" id="wscroll"></div>
+    <div class="motiv" id="motiv"></div>
+    <div class="mbody" id="mbody"></div>
+    <div class="nav">
+      <button class="nb" onclick="ir('s1')"><span class="ni">🏠</span>Inicio</button>
+      <button class="nb activo" onclick="ir('s2')"><span class="ni">🥗</span>Menú</button>
+      <button class="nb" onclick="ir('s3')"><span class="ni">💊</span>Pastillas</button>
+    </div>
   </div>
-</div>
 
-<!-- S3 PASTILLAS -->
-<div id="s3" class="sc">
-  <div class="s3h"><h2>💊 Control de pastillas</h2><p id="s3d">Hoy: cargando...</p></div>
-  <div class="motiv3" id="motiv3"></div>
-  <div class="pbody" id="pbody"></div>
-  <div class="nav">
-    <button class="nb" onclick="go('s1')"><span class="ni">🏠</span>Inicio</button>
-    <button class="nb" onclick="go('s2')"><span class="ni">🥗</span>Menú</button>
-    <button class="nb on" onclick="go('s3')"><span class="ni">💊</span>Pastillas</button>
+  <!-- ===== S3 PASTILLAS ===== -->
+  <div id="s3" class="sc">
+    <div class="s3h"><h2>💊 Control de pastillas</h2><p id="s3d">Hoy: cargando...</p></div>
+    <div class="motiv3" id="motiv3"></div>
+    <div class="pbody" id="pbody"></div>
+    <div class="nav">
+      <button class="nb" onclick="ir('s1')"><span class="ni">🏠</span>Inicio</button>
+      <button class="nb" onclick="ir('s2')"><span class="ni">🥗</span>Menú</button>
+      <button class="nb activo" onclick="ir('s3')"><span class="ni">💊</span>Pastillas</button>
+    </div>
   </div>
-</div>
 
-<!-- CELEBRACIÓN -->
-<div class="cel" id="cel">
-  <div class="cf">🎉🏆🎊</div>
-  <div class="ce">🦁</div>
-  <div class="ct">¡VAMOS,<br>PUMA PARA ARRIBA!</div>
-  <div class="cs">Todas las pastillas del día tomadas.<br>¡Sos un campeón, Pa Marce! 🤟<br>Tu corazón te lo agradece ❤️</div>
-  <div class="cf">⭐🌟✨</div>
-  <button class="cbt" onclick="closeCel()">¡Gracias, lo sé! 😄</button>
-</div>
+  <!-- CELEBRACIÓN -->
+  <div class="cel" id="cel">
+    <div class="cf">🎉🏆🎊</div>
+    <div class="ce">🦁</div>
+    <div class="ct">¡VAMOS,<br>PUMA PARA ARRIBA!</div>
+    <div class="cs">Todas las pastillas del día tomadas.<br>¡Sos un campeón, Pa Marce! 🤟<br>Tu corazón te lo agradece ❤️</div>
+    <div class="cf">⭐🌟✨</div>
+    <button class="cbt" onclick="closeCel()">¡Gracias, lo sé! 😄</button>
+  </div>
 </div>
 
 <script>
-const DAYS=['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
-const MONTHS=['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
-const START=new Date(2025,2,15);
+const DAYS   = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
+const MONTHS = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+const START  = new Date(2025,2,15);
 
 function dl(o){
-  const d=new Date(START);d.setDate(d.getDate()+o);
-  return{l:DAYS[d.getDay()],d:`${d.getDate()} ${MONTHS[d.getMonth()]}`};
+  const d=new Date(START); d.setDate(d.getDate()+o);
+  return {l:DAYS[d.getDay()], d:`${d.getDate()} ${MONTHS[d.getMonth()]}`};
 }
 
-/* Frases motivacionales para el menú */
+/* Frases menú */
 const MM=[
   {e:'🎤',a:'Freddie Mercury',q:'The show must go on. Y vos, Pa, sos el show más importante de nuestras vidas.'},
-  {e:'🏛️',a:'Marco Aurelio',q:'No pierdas tiempo argumentando cómo debe ser un buen hombre. ¡Sé uno! Hoy lo sos.'},
-  {e:'🎸',a:'Bon Jovi',q:"It's my life — it's now or never! Hoy es tu día, Pa Marce. ¡Comé bien y ganás!"},
-  {e:'🦉',a:'Sócrates',q:'Conócete a ti mismo. Vos sabés que podés, y nosotros también lo sabemos.'},
-  {e:'💃',a:'Shakira',q:'La vida es bella, y hay tanto por vivir. ¡Hoy comés rico y cuidás lo más valioso!'},
-  {e:'⚡',a:'Nietzsche',q:'Lo que no te mata, te hace más fuerte. Cada día de este plan te hace más invencible.'},
-  {e:'👑',a:'Queen',q:'We are the champions! Y vos, Pa Marce, sos el campeón de esta familia.'},
+  {e:'🏛️',a:'Marco Aurelio',   q:'No pierdas tiempo argumentando cómo debe ser un buen hombre. ¡Sé uno! Hoy lo sos.'},
+  {e:'🎸',a:'Bon Jovi',        q:"It's my life — it's now or never! Hoy es tu día, Pa Marce. ¡Comé bien y ganás!"},
+  {e:'🦉',a:'Sócrates',        q:'Conócete a ti mismo. Vos sabés que podés, y nosotros también lo sabemos.'},
+  {e:'💃',a:'Shakira',         q:'La vida es bella, y hay tanto por vivir. ¡Hoy comés rico y cuidás lo más valioso!'},
+  {e:'⚡',a:'Nietzsche',       q:'Lo que no te mata, te hace más fuerte. Cada día de este plan te hace más invencible.'},
+  {e:'👑',a:'Queen',           q:'We are the champions! Y vos, Pa Marce, sos el campeón de esta familia.'},
 ];
 
-/* Frases motivacionales para pastillas */
+/* Frases pastillas */
 const MP=[
-  {e:'🫀',a:'Hipócrates',q:'Que tu medicina sea tu alimento. Cada pastilla es un escudo que te cuida, Pa.'},
-  {e:'💊',a:'Paulo Coelho',q:'Cuando querés algo, todo el universo conspira para que lo logres. ¡Seguí así!'},
-  {e:'🌟',a:'Nelson Mandela',q:'Todo parece imposible hasta que se hace. ¡Ya estás en camino y eso es lo más importante!'},
-  {e:'🔥',a:'Einstein',q:'En medio de la dificultad reside la oportunidad. Cada día sano es más tiempo con ellas.'},
-  {e:'🦁',a:'Winston Churchill',q:'El éxito no es definitivo, el fracaso no es fatal. Lo que cuenta es el coraje de continuar.'},
-  {e:'🌈',a:'Madre Teresa',q:'Ayer ya pasó. Mañana aún no llegó. Tenemos solamente hoy. ¡Aprovechalo, Pa!'},
-  {e:'🎯',a:'Aristóteles',q:'Somos lo que hacemos repetidamente. La excelencia entonces no es un acto, sino un hábito.'},
+  {e:'🫀',a:'Hipócrates',       q:'Que tu medicina sea tu alimento. Cada pastilla es un escudo que te cuida, Pa.'},
+  {e:'🌟',a:'Paulo Coelho',     q:'Cuando querés algo, todo el universo conspira para que lo logres. ¡Seguí así!'},
+  {e:'🦁',a:'Nelson Mandela',   q:'Todo parece imposible hasta que se hace. ¡Ya estás en camino, Pa Marce!'},
+  {e:'💡',a:'Albert Einstein',  q:'En medio de la dificultad reside la oportunidad. Cada día sano es más tiempo con ellas.'},
+  {e:'🔥',a:'Winston Churchill',q:'El éxito no es definitivo, el fracaso no es fatal. Lo que cuenta es el coraje de continuar.'},
+  {e:'🌈',a:'Madre Teresa',     q:'Ayer ya pasó. Mañana aún no llegó. Tenemos solamente hoy. ¡Aprovechalo, Pa!'},
+  {e:'🎯',a:'Aristóteles',      q:'Somos lo que hacemos repetidamente. La excelencia no es un acto, sino un hábito.'},
 ];
 
 const MENU=[
@@ -295,41 +343,26 @@ const MI=['☀️','🍽️','🍎','🌙'];
 const MN=['Desayuno','Almuerzo','Merienda','Cena'];
 
 const PS=[
-  {t:'Desayuno',i:'☀️',pills:[{n:'Bisoprolol',e:'🫀',c:'#4fc3f7',f:'Para el corazón guerrero'}]},
-  {t:'Almuerzo',i:'🍽️',pills:[{n:'Aspirina',e:'🌡️',c:'#ef9a9a',f:'La clásica de siempre'}]},
-  {t:'Cena',i:'🌙',pills:[
-    {n:'Ezetimibe',e:'🛡️',c:'#a5d6a7',f:'Escudo contra el colesterol'},
-    {n:'Rosuvastatina',e:'⚡',c:'#ffcc80',f:'Energía controlada'},
-    {n:'Prestoklar',e:'🌟',c:'#ce93d8',f:'La estrella de la noche'},
+  {t:'Desayuno',i:'☀️',pills:[{n:'Bisoprolol',    e:'🫀',c:'#4fc3f7',f:'Para el corazón guerrero'}]},
+  {t:'Almuerzo',i:'🍽️',pills:[{n:'Aspirina',      e:'🌡️',c:'#ef9a9a',f:'La clásica de siempre'}]},
+  {t:'Cena',    i:'🌙',pills:[
+    {n:'Ezetimibe',    e:'🛡️',c:'#a5d6a7',f:'Escudo contra el colesterol'},
+    {n:'Rosuvastatina',e:'⚡', c:'#ffcc80',f:'Energía controlada'},
+    {n:'Prestoklar',   e:'🌟',c:'#ce93d8',f:'La estrella de la noche'},
   ]},
 ];
 
 let day=0, pk={}, cs={};
 
 /* ---- NAVEGACIÓN ---- */
-function go(id){
-  // Ocultar todas las pantallas
+function ir(id){
   document.querySelectorAll('.sc').forEach(s=>s.classList.remove('on'));
   document.getElementById(id).classList.add('on');
-  // Resetear todos los botones de nav
-  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('on'));
-  // Activar el botón correcto en el nav de la pantalla activa
-  document.querySelectorAll('#'+id+' .nb').forEach(b=>{
-    if(b.getAttribute('onclick').includes("'"+id+"'")){
-      b.classList.add('on');
-    }
-  });
   if(id==='s2') renderMenu();
   if(id==='s3') renderPills();
 }
 
 /* ---- HELPERS ---- */
-function hec(p){return p>=92?'🥇':p>=88?'🌿':'✅'}
-function hcol(p){
-  return p>=92?{bg:'#e8f5e9',t:'#1b5e20'}
-        :p>=88?{bg:'#f1f8e9',t:'#33691e'}
-              :{bg:'#f9fbe7',t:'#558b2f'};
-}
 function gc(d,m,i){return(cs[d]&&cs[d][m]&&cs[d][m][i]!=null)?cs[d][m][i]:null;}
 function sc2(d,m,i,v){
   if(!cs[d])cs[d]={};
@@ -337,10 +370,16 @@ function sc2(d,m,i,v){
   cs[d][m][i]=v;
   renderMenu();
 }
+function hec(p){return p>=92?'🥇':p>=88?'🌿':'✅'}
+function hcol(p){
+  return p>=92?{bg:'#e8f5e9',t:'#1b5e20'}
+        :p>=88?{bg:'#f1f8e9',t:'#33691e'}
+              :{bg:'#f9fbe7',t:'#558b2f'};
+}
 
-/* ---- MENÚ ---- */
+/* ---- RENDER MENÚ ---- */
 function renderMenu(){
-  // Tabs días
+  /* tabs */
   const ws=document.getElementById('wscroll');
   ws.innerHTML='';
   for(let i=0;i<7;i++){
@@ -351,17 +390,17 @@ function renderMenu(){
     b.onclick=()=>{day=i;renderMenu();};
     ws.appendChild(b);
   }
-  // Frase motivacional
+  /* frase */
   const m=MM[day];
   document.getElementById('motiv').innerHTML=
     `<div class="mta"><div class="mau">${m.e} — ${m.a}</div><div class="mqt">"${m.q}"</div></div>`;
-  // Comidas
+  /* comidas */
   const D=MENU[day];
   const body=document.getElementById('mbody');
   body.innerHTML='';
   [[D.b,0],[D.l,1],[D.s,2],[D.d,3]].forEach(([items,mi])=>{
-    const p=D.p[mi];const col=hcol(p);
-    const card=document.createElement('div');card.className='mc';
+    const p=D.p[mi]; const col=hcol(p);
+    const card=document.createElement('div'); card.className='mc';
     const ih=items.map((it,ii)=>{
       if(it.t==='x') return `<div class="mitem">${it.v}</div>`;
       const sel=gc(day,mi,ii);
@@ -382,37 +421,37 @@ function renderMenu(){
   });
 }
 
-/* ---- PASTILLAS ---- */
+/* ---- RENDER PASTILLAS ---- */
 function renderPills(){
   const t=new Date();
-  const idx=((t.getDay()-dl(0).l.length)%7+7)%7; // día de semana actual
-  const mp=MP[t.getDay()%7];
   document.getElementById('s3d').textContent=
     `Hoy: ${DAYS[t.getDay()]} ${t.getDate()} ${MONTHS[t.getMonth()]}`;
-  // Frase motivacional pastillas
+  /* frase */
+  const mp=MP[t.getDay()];
   document.getElementById('motiv3').innerHTML=
     `<div class="mta3"><div class="mau3">${mp.e} — ${mp.a}</div><div class="mqt3">"${mp.q}"</div></div>`;
-  // Pastillas
+  /* pastillas */
   const body=document.getElementById('pbody');
   body.innerHTML='';
-  let tot=0,chk=0;
+  let tot=0, chk=0;
   PS.forEach((sec,si)=>{
-    const div=document.createElement('div');div.className='psec';
+    const div=document.createElement('div'); div.className='psec';
     let rows='';
     sec.pills.forEach((p,pi)=>{
       tot++;
       const k=`${si}-${pi}`;
-      const on=!!pk[k];if(on)chk++;
-      rows+=`<div class="pr">
-        <div class="pinfo">
-          <div class="pdot" style="background:${p.c}"></div>
-          <div>
-            <div class="pnr"><span class="pef">${p.e}</span><span class="pn">${p.n}</span></div>
-            <div style="font-size:10px;color:#aaa;margin-top:1px">${p.f}</div>
+      const on=!!pk[k]; if(on) chk++;
+      rows+=`
+        <div class="pr">
+          <div class="pinfo">
+            <div class="pdot" style="background:${p.c}"></div>
+            <div>
+              <div class="pnr"><span class="pef">${p.e}</span><span class="pn">${p.n}</span></div>
+              <div class="pfun">${p.f}</div>
+            </div>
           </div>
-        </div>
-        <div class="pch${on?' on':''}" onclick="tp('${k}')">${on?'✓':''}</div>
-      </div>`;
+          <div class="pch${on?' on':''}" onclick="tp('${k}')">${on?'✓':''}</div>
+        </div>`;
     });
     div.innerHTML=`
       <div class="psh">
@@ -421,19 +460,21 @@ function renderPills(){
       </div>${rows}`;
     body.appendChild(div);
   });
-  // Anillo de progreso
+  /* anillo */
   const pct=Math.round(chk/tot*100);
   const C=2*Math.PI*34;
   const dash=C*(chk/tot);
-  const pw=document.createElement('div');pw.className='prw';
-  pw.innerHTML=`<svg width="80" height="80" viewBox="0 0 80 80">
-    <circle cx="40" cy="40" r="34" fill="none" stroke="#f0e6ff" stroke-width="7"/>
-    <circle cx="40" cy="40" r="34" fill="none" stroke="#a18cd1" stroke-width="7"
-      stroke-dasharray="${dash.toFixed(1)} ${C.toFixed(1)}"
-      stroke-dashoffset="${(C/4).toFixed(1)}" stroke-linecap="round"/>
-    <text x="40" y="45" text-anchor="middle" font-family="Nunito" font-size="16" font-weight="900" fill="#a18cd1">${pct}%</text>
-  </svg>
-  <div class="prl">💊 Pastillas tomadas hoy</div>`;
+  const pw=document.createElement('div'); pw.className='prw';
+  pw.innerHTML=`
+    <svg width="80" height="80" viewBox="0 0 80 80">
+      <circle cx="40" cy="40" r="34" fill="none" stroke="#f0e6ff" stroke-width="7"/>
+      <circle cx="40" cy="40" r="34" fill="none" stroke="#a18cd1" stroke-width="7"
+        stroke-dasharray="${dash.toFixed(1)} ${C.toFixed(1)}"
+        stroke-dashoffset="${(C/4).toFixed(1)}" stroke-linecap="round"/>
+      <text x="40" y="45" text-anchor="middle" font-family="Nunito"
+        font-size="16" font-weight="900" fill="#a18cd1">${pct}%</text>
+    </svg>
+    <div class="prl">💊 Pastillas tomadas hoy</div>`;
   body.appendChild(pw);
 }
 
@@ -451,7 +492,6 @@ function closeCel(){
   renderPills();
 }
 
-// Iniciar en menú
 renderMenu();
 </script>
 </body>
