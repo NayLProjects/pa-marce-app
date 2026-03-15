@@ -265,7 +265,12 @@ const PS=[
   ]},
 ];
 
-let day=0,pk={},cs={};
+let day=0,cs={};
+// Checks guardados por día en localStorage
+function pkKey(){const t=new Date();return "pk_"+t.getFullYear()+"_"+(t.getMonth()+1)+"_"+t.getDate();}
+function loadPk(){try{const raw=localStorage.getItem(pkKey());return raw?JSON.parse(raw):{}}catch(e){return{};}}
+function savePk(pk){try{localStorage.setItem(pkKey(),JSON.stringify(pk));}catch(e){}}
+let pk=loadPk();
 function gc(d,m,i){return(cs[d]&&cs[d][m]&&cs[d][m][i]!=null)?cs[d][m][i]:null;}
 function sc2(d,m,i,v){if(!cs[d])cs[d]={};if(!cs[d][m])cs[d][m]={};cs[d][m][i]=v;renderMenu();}
 function hec(p){return p>=92?'🥇':p>=88?'🌿':'✅'}
@@ -327,12 +332,14 @@ function renderPills(){
 }
 
 function tp(k){
-  pk[k]=!pk[k];renderPills();
+  pk[k]=!pk[k];
+  savePk(pk);
+  renderPills();
   const tot=PS.reduce((a,s)=>a+s.pills.length,0);
   if(Object.values(pk).filter(Boolean).length===tot)
     setTimeout(()=>document.getElementById('cel').classList.add('on'),400);
 }
-function closeCel(){document.getElementById('cel').classList.remove('on');pk={};renderPills();}
+function closeCel(){document.getElementById('cel').classList.remove('on');pk={};savePk(pk);renderPills();}
 
 renderMenu();
 </script>
