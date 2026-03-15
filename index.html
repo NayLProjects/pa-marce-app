@@ -5,219 +5,216 @@
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&family=Pacifico&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{width:100%;height:100%;overflow:hidden;background:#f0f0f0;font-family:'Nunito',sans-serif}
 
-/* OCUPA TODA LA PANTALLA del dispositivo */
-html,body{
-  width:100%;
-  height:100%;
-  overflow:hidden;
-  background:#fff;
-  font-family:'Nunito',sans-serif
-}
-
-/* CONTENEDOR PRINCIPAL: columna que llena la pantalla */
-.app{
-  width:100%;
-  height:100dvh; /* dvh = dynamic viewport height, funciona bien en mobile */
-  display:flex;
-  flex-direction:column;
-  overflow:hidden;
-  background:#fff
-}
-
-/* STATUS BAR */
+/* STATUS BAR fija arriba */
 .sb{
-  flex:0 0 auto;
-  height:40px;
+  position:fixed;top:0;left:0;right:0;
+  height:44px;z-index:10;
   background:linear-gradient(135deg,#ff6b6b,#ee5a24 50%,#f9ca24);
   display:flex;align-items:center;justify-content:space-between;
-  padding:0 16px;font-size:11px;font-weight:700;color:#fff
+  padding:0 18px;font-size:12px;font-weight:800;color:#fff
 }
 
-/* SCREENS — llenan el espacio entre status bar y nav */
-.sc{
-  display:none;
-  flex-direction:column;
-  flex:1 1 0;    /* crece para llenar */
-  min-height:0;  /* puede encoger */
-  overflow:hidden
-}
-.sc.on{display:flex}
-
-/* NAV INFERIOR — siempre fijo al fondo */
+/* NAV fijo abajo */
 .nav{
-  flex:0 0 auto;
-  display:flex;
+  position:fixed;bottom:0;left:0;right:0;
+  height:60px;z-index:10;
   background:#fff;
-  border-top:1.5px solid #ececec;
-  padding:6px 0;
-  padding-bottom:max(6px, env(safe-area-inset-bottom)) /* respeta el notch inferior */
+  border-top:2px solid #e8e8e8;
+  display:flex;align-items:center
 }
 .nb{
   flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;
   background:none;border:none;cursor:pointer;
-  font-family:'Nunito';font-size:10px;font-weight:700;color:#bbb;padding:4px 0
+  font-family:'Nunito';font-size:11px;font-weight:800;color:#ccc;padding:4px 0;
+  transition:color .15s
 }
 .nb.activo{color:#ee5a24}
-.ni{font-size:22px;line-height:1.2}
+.ni{font-size:24px;line-height:1.2}
+
+/* SCREENS: ocupan el espacio entre sb y nav */
+.sc{
+  display:none;
+  position:fixed;
+  top:44px;
+  bottom:60px;
+  left:0;right:0;
+  overflow-y:auto;
+  -webkit-overflow-scrolling:touch
+}
+.sc.on{display:block}
 
 /* ===== S1 INICIO ===== */
-#s1{background:linear-gradient(160deg,#fff9e6,#fff0f0 40%,#e8f5ff)}
-.s1body{
-  flex:1 1 0;min-height:0;overflow-y:auto;
+#s1{background:linear-gradient(160deg,#fff9e6,#fff0f0 50%,#e8f5ff)}
+.s1inner{
   display:flex;flex-direction:column;align-items:center;
-  padding:16px 16px 8px;text-align:center
+  padding:20px 18px 16px;text-align:center;min-height:100%
 }
 .badge{
   background:linear-gradient(135deg,#ff6b6b,#ee5a24);color:#fff;
-  font-size:10px;font-weight:800;letter-spacing:1px;
-  padding:5px 16px;border-radius:999px;margin-bottom:10px;
+  font-size:11px;font-weight:800;letter-spacing:1px;
+  padding:6px 20px;border-radius:999px;margin-bottom:14px;
   text-transform:uppercase;display:inline-block
 }
-.hero{font-size:58px;margin-bottom:2px;animation:bo 2s infinite}
-@keyframes bo{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
-.wtitle{font-family:'Pacifico',cursive;font-size:20px;color:#1a1a2e;line-height:1.3;margin-bottom:6px}
-.wsub{font-size:13px;color:#666;margin-bottom:10px;line-height:1.5}
-.ily{font-size:58px;animation:pu 1.5s ease-in-out infinite;display:inline-block;margin-bottom:2px}
-@keyframes pu{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
-.srow{display:flex;gap:8px;margin:8px 0;width:100%}
-.scard{flex:1;background:#fff;border-radius:14px;padding:10px 4px;text-align:center;box-shadow:0 3px 12px rgba(0,0,0,.08)}
-.se{font-size:18px}.sn{font-size:16px;font-weight:900;color:#1a1a2e;margin:2px 0}.sl{font-size:9px;color:#888;font-weight:600}
+.hero{font-size:72px;margin-bottom:6px;animation:bo 2s infinite;display:block}
+@keyframes bo{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.wtitle{font-family:'Pacifico',cursive;font-size:24px;color:#1a1a2e;line-height:1.35;margin-bottom:10px}
+.wsub{font-size:15px;color:#555;margin-bottom:14px;line-height:1.6}
+.ily{font-size:70px;animation:pu 1.5s ease-in-out infinite;display:block;margin-bottom:6px}
+@keyframes pu{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
+.srow{display:flex;gap:10px;margin:12px 0;width:100%}
+.scard{flex:1;background:#fff;border-radius:18px;padding:14px 6px;text-align:center;box-shadow:0 4px 16px rgba(0,0,0,.09)}
+.se{font-size:22px}.sn{font-size:18px;font-weight:900;color:#1a1a2e;margin:3px 0}.sl{font-size:11px;color:#888;font-weight:700}
 .bstart{
-  width:100%;padding:13px;border-radius:18px;border:none;cursor:pointer;
+  width:100%;padding:16px;border-radius:22px;border:none;cursor:pointer;
   background:linear-gradient(135deg,#ff6b6b,#ee5a24);color:#fff;
-  font-family:'Nunito';font-size:15px;font-weight:800;
-  box-shadow:0 5px 16px rgba(238,90,36,.4);margin-top:8px
+  font-family:'Nunito';font-size:17px;font-weight:900;
+  box-shadow:0 6px 20px rgba(238,90,36,.45);margin-top:10px
 }
 .bstart:active{transform:scale(.97)}
 
-/* ===== S2 MENÚ ===== */
-#s2{background:#f8f9ff}
-.s2h{flex:0 0 auto;background:linear-gradient(135deg,#43c6ac,#191654);padding:12px 14px 14px;color:#fff}
-.s2h h2{font-size:17px;font-weight:900;margin-bottom:1px}
-.s2h p{font-size:11px;opacity:.85}
-.wscroll{flex:0 0 auto;display:flex;gap:7px;padding:8px 12px 0;overflow-x:auto;scrollbar-width:none}
+/* ===== S2 MENU ===== */
+#s2{background:#f0f4ff}
+.s2h{
+  background:linear-gradient(135deg,#43c6ac,#191654);
+  padding:14px 16px 16px;color:#fff;
+  position:sticky;top:0;z-index:5
+}
+.s2h h2{font-size:19px;font-weight:900;margin-bottom:2px}
+.s2h p{font-size:12px;opacity:.85}
+.wscroll{display:flex;gap:8px;padding:10px 14px 0;overflow-x:auto;scrollbar-width:none;background:#f0f4ff}
 .wscroll::-webkit-scrollbar{display:none}
-.dp{flex-shrink:0;padding:6px 11px;border-radius:999px;cursor:pointer;border:2px solid #e0e0e0;background:#fff;font-size:11px;font-weight:700;color:#888}
-.dp.on{background:linear-gradient(135deg,#43c6ac,#191654);border-color:transparent;color:#fff;box-shadow:0 3px 8px rgba(67,198,172,.4)}
-.motiv{flex:0 0 auto;margin:8px 12px 0;border-radius:14px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.10)}
-.mta{background:linear-gradient(135deg,#ffecd2,#fcb69f);padding:9px 13px}
-.mau{font-size:9px;font-weight:800;color:#8b3a00;text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px}
-.mqt{font-size:11px;font-weight:700;color:#8b3a00;line-height:1.4;font-style:italic}
-.mbody{flex:1 1 0;min-height:0;overflow-y:auto;padding:8px 12px}
-.mc{background:#fff;border-radius:14px;box-shadow:0 2px 10px rgba(0,0,0,.07);margin-bottom:9px;overflow:hidden}
-.mh{display:flex;align-items:center;justify-content:space-between;padding:10px 12px 6px}
-.mt2{display:flex;align-items:center;gap:6px}
-.mi{font-size:17px}.mn{font-size:13px;font-weight:800;color:#1a1a2e}
-.hb{display:flex;align-items:center;gap:3px;border-radius:999px;padding:3px 7px}
-.hp{font-size:11px;font-weight:800}
-.mitems{padding:0 12px 10px}
-.mitem{display:flex;align-items:flex-start;gap:5px;font-size:12px;color:#444;margin-bottom:5px;line-height:1.4}
+.dp{
+  flex-shrink:0;padding:8px 14px;border-radius:999px;cursor:pointer;
+  border:2px solid #ddd;background:#fff;font-size:12px;font-weight:800;color:#888
+}
+.dp.on{background:linear-gradient(135deg,#43c6ac,#191654);border-color:transparent;color:#fff;box-shadow:0 3px 10px rgba(67,198,172,.4)}
+.motiv{margin:10px 14px 0;border-radius:18px;overflow:hidden;box-shadow:0 3px 14px rgba(0,0,0,.11)}
+.mta{background:linear-gradient(135deg,#ffecd2,#fcb69f);padding:12px 16px}
+.mau{font-size:10px;font-weight:800;color:#8b3a00;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+.mqt{font-size:14px;font-weight:700;color:#7a3000;line-height:1.5;font-style:italic}
+.mbody{padding:10px 14px 14px}
+.mc{background:#fff;border-radius:18px;box-shadow:0 3px 14px rgba(0,0,0,.07);margin-bottom:12px;overflow:hidden}
+.mh{display:flex;align-items:center;justify-content:space-between;padding:13px 14px 8px}
+.mt2{display:flex;align-items:center;gap:8px}
+.mi{font-size:20px}.mn{font-size:14px;font-weight:900;color:#1a1a2e}
+.hb{display:flex;align-items:center;gap:4px;border-radius:999px;padding:4px 9px}
+.hp{font-size:13px;font-weight:900}
+.mitems{padding:0 14px 13px}
+.mitem{display:flex;align-items:flex-start;gap:7px;font-size:14px;color:#444;margin-bottom:7px;line-height:1.45}
 .mitem::before{content:'•';color:#43c6ac;font-weight:900;flex-shrink:0;margin-top:1px}
-.mic{margin-bottom:7px}
-.cl{font-size:9px;font-weight:800;color:#43c6ac;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;padding-left:2px}
-.cps{display:flex;gap:5px;flex-wrap:wrap}
-.cp{display:flex;align-items:center;gap:3px;padding:5px 9px;border-radius:999px;border:2px solid #e0f7f1;background:#f0fdf8;font-size:11px;font-weight:700;color:#1b7a62;cursor:pointer}
+.mic{margin-bottom:10px}
+.cl{font-size:10px;font-weight:900;color:#43c6ac;text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px;padding-left:3px}
+.cps{display:flex;gap:6px;flex-wrap:wrap}
+.cp{
+  display:flex;align-items:center;gap:5px;padding:7px 12px;border-radius:999px;
+  border:2px solid #d0f5ed;background:#f0fdf8;
+  font-size:13px;font-weight:800;color:#1b7a62;cursor:pointer
+}
 .cp.on{background:#43c6ac;border-color:#43c6ac;color:#fff}
-.csep{font-size:10px;color:#aaa;align-self:center;font-weight:700}
+.csep{font-size:12px;color:#bbb;align-self:center;font-weight:700}
 
 /* ===== S3 PASTILLAS ===== */
-#s3{background:#f8f0ff}
-.s3h{flex:0 0 auto;background:linear-gradient(135deg,#a18cd1,#fbc2eb);padding:12px 14px 14px;color:#fff}
-.s3h h2{font-size:17px;font-weight:900}
-.s3h p{font-size:11px;opacity:.85;margin-top:2px}
-.motiv3{flex:0 0 auto;margin:8px 12px 0;border-radius:14px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.10)}
-.mta3{background:linear-gradient(135deg,#e0c3fc,#c5b5f0);padding:9px 13px}
-.mau3{font-size:9px;font-weight:800;color:#3d1a78;text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px}
-.mqt3{font-size:11px;font-weight:700;color:#3d1a78;line-height:1.4;font-style:italic}
-.pbody{flex:1 1 0;min-height:0;overflow-y:auto;padding:8px 12px}
-.psec{background:#fff;border-radius:14px;padding:12px;margin-bottom:10px;box-shadow:0 2px 10px rgba(0,0,0,.07)}
-.psh{display:flex;align-items:center;gap:8px;margin-bottom:10px}
-.pic2{font-size:22px}.ptl{font-size:13px;font-weight:800;color:#1a1a2e}.pts{font-size:10px;color:#888}
-.pr{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid #f0f0f0}
+#s3{background:#f5f0ff}
+.s3h{
+  background:linear-gradient(135deg,#a18cd1,#fbc2eb);
+  padding:14px 16px 16px;color:#fff;
+  position:sticky;top:0;z-index:5
+}
+.s3h h2{font-size:19px;font-weight:900}
+.s3h p{font-size:12px;opacity:.85;margin-top:2px}
+.motiv3{margin:10px 14px 0;border-radius:18px;overflow:hidden;box-shadow:0 3px 14px rgba(0,0,0,.11)}
+.mta3{background:linear-gradient(135deg,#e0c3fc,#c5b5f0);padding:12px 16px}
+.mau3{font-size:10px;font-weight:800;color:#3d1a78;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+.mqt3{font-size:14px;font-weight:700;color:#3d1a78;line-height:1.5;font-style:italic}
+.pbody{padding:10px 14px 14px}
+.psec{background:#fff;border-radius:18px;padding:15px;margin-bottom:12px;box-shadow:0 3px 14px rgba(0,0,0,.07)}
+.psh{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.pic2{font-size:26px}.ptl{font-size:15px;font-weight:900;color:#1a1a2e}.pts{font-size:11px;color:#999}
+.pr{display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1px solid #f0f0f0}
 .pr:last-child{border-bottom:none;padding-bottom:0}
-.pinfo{display:flex;align-items:center;gap:8px}
-.pdot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
-.pnr{display:flex;align-items:center;gap:4px}
-.pn{font-size:12px;font-weight:700;color:#333}.pef{font-size:14px}
-.pfun{font-size:10px;color:#aaa;margin-top:1px}
-.pch{width:28px;height:28px;border-radius:8px;border:2.5px solid #ccc;background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:15px;transition:all .2s;flex-shrink:0}
+.pinfo{display:flex;align-items:center;gap:10px}
+.pdot{width:12px;height:12px;border-radius:50%;flex-shrink:0}
+.pnr{display:flex;align-items:center;gap:5px}
+.pn{font-size:14px;font-weight:800;color:#222}.pef{font-size:18px}
+.pfun{font-size:11px;color:#aaa;margin-top:2px}
+.pch{
+  width:32px;height:32px;border-radius:9px;border:2.5px solid #ccc;
+  background:#fff;cursor:pointer;display:flex;align-items:center;
+  justify-content:center;font-size:18px;transition:all .2s;flex-shrink:0
+}
 .pch.on{background:#4caf50;border-color:#4caf50;color:#fff}
-.prw{text-align:center;padding:8px}
-.prl{font-size:11px;color:#888;font-weight:600;margin-top:4px}
+.prw{text-align:center;padding:12px}
+.prl{font-size:12px;color:#999;font-weight:700;margin-top:6px}
 
-/* CELEBRACIÓN */
-.cel{display:none;position:fixed;inset:0;z-index:200;background:linear-gradient(160deg,#1a1a2e,#16213e 50%,#0f3460);flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:28px}
+/* CELEBRACION */
+.cel{display:none;position:fixed;inset:0;z-index:200;
+  background:linear-gradient(160deg,#1a1a2e,#16213e 50%,#0f3460);
+  flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:32px}
 .cel.on{display:flex}
-.ce{font-size:62px;margin-bottom:10px;animation:si .6s ease}
+.ce{font-size:70px;margin-bottom:12px;animation:si .6s ease}
 @keyframes si{from{transform:rotate(-20deg) scale(0)}to{transform:rotate(0) scale(1)}}
-.ct{font-family:'Pacifico',cursive;font-size:24px;color:#f9ca24;margin-bottom:10px}
-.cs{font-size:14px;color:#fff;opacity:.85;line-height:1.6;margin-bottom:20px}
-.cf{font-size:24px;letter-spacing:7px;margin-bottom:16px;animation:sk .5s ease-in-out infinite alternate}
-@keyframes sk{from{transform:translateX(-4px)}to{transform:translateX(4px)}}
-.cbt{padding:12px 28px;border-radius:999px;border:none;cursor:pointer;background:#f9ca24;color:#1a1a2e;font-family:'Nunito';font-size:14px;font-weight:800}
+.ct{font-family:'Pacifico',cursive;font-size:28px;color:#f9ca24;margin-bottom:12px}
+.cs{font-size:16px;color:#fff;opacity:.88;line-height:1.7;margin-bottom:24px}
+.cf{font-size:28px;letter-spacing:8px;margin-bottom:20px;animation:sk .5s ease-in-out infinite alternate}
+@keyframes sk{from{transform:translateX(-5px)}to{transform:translateX(5px)}}
+.cbt{padding:14px 32px;border-radius:999px;border:none;cursor:pointer;
+  background:#f9ca24;color:#1a1a2e;font-family:'Nunito';font-size:16px;font-weight:900}
 </style>
 </head>
 <body>
-<div class="app">
-  <div class="sb"><span>9:41</span><span>❤️ Pa Marce</span><span>🔋 100%</span></div>
 
-  <!-- S1 INICIO -->
-  <div id="s1" class="sc on">
-    <div class="s1body">
-      <div class="badge">🌟 Tu app de salud personal</div>
-      <div class="hero">🤟</div>
-      <h1 class="wtitle">¡Bienvenido Pa Marce,<br>a ver qué comés hoy!</h1>
-      <p class="wsub">Cada día que seguís este plan<br>es un paso hacia tu corazón sano 💪</p>
-      <div class="ily">🤟</div>
-      <div class="srow">
-        <div class="scard"><div class="se">⚖️</div><div class="sn">99 kg</div><div class="sl">Peso actual</div></div>
-        <div class="scard"><div class="se">🎯</div><div class="sn">86 kg</div><div class="sl">Meta</div></div>
-        <div class="scard"><div class="se">📅</div><div class="sn">6 sem</div><div class="sl">Plazo</div></div>
-      </div>
-      <button class="bstart" onclick="ir('s2')">¡Ver mi menú de hoy! 🥗</button>
-    </div>
-    <div class="nav">
-      <button class="nb activo" onclick="ir('s1')"><span class="ni">🏠</span>Inicio</button>
-      <button class="nb" onclick="ir('s2')"><span class="ni">🥗</span>Menú</button>
-      <button class="nb" onclick="ir('s3')"><span class="ni">💊</span>Pastillas</button>
-    </div>
-  </div>
+<div class="sb"><span>9:41</span><span>❤️ Pa Marce</span><span>🔋 100%</span></div>
 
-  <!-- S2 MENÚ -->
-  <div id="s2" class="sc">
-    <div class="s2h"><h2>🥗 Menú semanal</h2><p>Aprobado por tu nutricionista ✅</p></div>
-    <div class="wscroll" id="wscroll"></div>
-    <div class="motiv" id="motiv"></div>
-    <div class="mbody" id="mbody"></div>
-    <div class="nav">
-      <button class="nb" onclick="ir('s1')"><span class="ni">🏠</span>Inicio</button>
-      <button class="nb activo" onclick="ir('s2')"><span class="ni">🥗</span>Menú</button>
-      <button class="nb" onclick="ir('s3')"><span class="ni">💊</span>Pastillas</button>
+<!-- S1 INICIO -->
+<div id="s1" class="sc on">
+  <div class="s1inner">
+    <div class="badge">🌟 Tu app de salud personal</div>
+    <span class="hero">🤟</span>
+    <h1 class="wtitle">¡Bienvenido Pa Marce,<br>a ver qué comés hoy!</h1>
+    <p class="wsub">Cada día que seguís este plan<br>es un paso hacia tu corazón sano 💪</p>
+    <span class="ily">🤟</span>
+    <div class="srow">
+      <div class="scard"><div class="se">⚖️</div><div class="sn">99 kg</div><div class="sl">Peso actual</div></div>
+      <div class="scard"><div class="se">🎯</div><div class="sn">86 kg</div><div class="sl">Meta</div></div>
+      <div class="scard"><div class="se">📅</div><div class="sn">6 sem</div><div class="sl">Plazo</div></div>
     </div>
+    <button class="bstart" onclick="ir('s2')">¡Ver mi menú de hoy! 🥗</button>
   </div>
+</div>
 
-  <!-- S3 PASTILLAS -->
-  <div id="s3" class="sc">
-    <div class="s3h"><h2>💊 Control de pastillas</h2><p id="s3d">Hoy: cargando...</p></div>
-    <div class="motiv3" id="motiv3"></div>
-    <div class="pbody" id="pbody"></div>
-    <div class="nav">
-      <button class="nb" onclick="ir('s1')"><span class="ni">🏠</span>Inicio</button>
-      <button class="nb" onclick="ir('s2')"><span class="ni">🥗</span>Menú</button>
-      <button class="nb activo" onclick="ir('s3')"><span class="ni">💊</span>Pastillas</button>
-    </div>
-  </div>
+<!-- S2 MENU -->
+<div id="s2" class="sc">
+  <div class="s2h"><h2>🥗 Menú semanal</h2><p>Aprobado por tu nutricionista ✅</p></div>
+  <div class="wscroll" id="wscroll"></div>
+  <div class="motiv" id="motiv"></div>
+  <div class="mbody" id="mbody"></div>
+</div>
 
-  <!-- CELEBRACIÓN -->
-  <div class="cel" id="cel">
-    <div class="cf">🎉🏆🎊</div>
-    <div class="ce">🦁</div>
-    <div class="ct">¡VAMOS,<br>PUMA PARA ARRIBA!</div>
-    <div class="cs">Todas las pastillas del día tomadas.<br>¡Sos un campeón, Pa Marce! 🤟<br>Tu corazón te lo agradece ❤️</div>
-    <div class="cf">⭐🌟✨</div>
-    <button class="cbt" onclick="closeCel()">¡Gracias, lo sé! 😄</button>
-  </div>
+<!-- S3 PASTILLAS -->
+<div id="s3" class="sc">
+  <div class="s3h"><h2>💊 Control de pastillas</h2><p id="s3d">Hoy: cargando...</p></div>
+  <div class="motiv3" id="motiv3"></div>
+  <div class="pbody" id="pbody"></div>
+</div>
+
+<!-- NAV fijo abajo -->
+<div class="nav">
+  <button class="nb activo" id="nb1" onclick="ir('s1')"><span class="ni">🏠</span>Inicio</button>
+  <button class="nb" id="nb2" onclick="ir('s2')"><span class="ni">🥗</span>Menú</button>
+  <button class="nb" id="nb3" onclick="ir('s3')"><span class="ni">💊</span>Pastillas</button>
+</div>
+
+<!-- CELEBRACION -->
+<div class="cel" id="cel">
+  <div class="cf">🎉🏆🎊</div>
+  <div class="ce">🦁</div>
+  <div class="ct">¡VAMOS,<br>PUMA PARA ARRIBA!</div>
+  <div class="cs">¡Todas las pastillas tomadas, Pa Marce! 🤟<br>Tu corazón te lo agradece ❤️<br>¡Sos un campeón de verdad! 🏆</div>
+  <div class="cf">⭐🌟✨</div>
+  <button class="cbt" onclick="closeCel()">¡Gracias, lo sé! 😄</button>
 </div>
 
 <script>
@@ -227,23 +224,25 @@ const START=new Date(2025,2,15);
 function dl(o){const d=new Date(START);d.setDate(d.getDate()+o);return{l:DAYS[d.getDay()],d:`${d.getDate()} ${MONTHS[d.getMonth()]}`};}
 
 const MM=[
-  {e:'🎤',a:'Freddie Mercury',q:'The show must go on. Y vos, Pa, sos el show más importante de nuestras vidas.'},
-  {e:'🏛️',a:'Marco Aurelio',q:'No pierdas tiempo argumentando cómo debe ser un buen hombre. ¡Sé uno! Hoy lo sos.'},
-  {e:'🎸',a:'Bon Jovi',q:"It's my life — it's now or never! Hoy es tu día, Pa Marce. ¡Comé bien y ganás!"},
-  {e:'🦉',a:'Sócrates',q:'Conócete a ti mismo. Vos sabés que podés, y nosotros también lo sabemos.'},
-  {e:'💃',a:'Shakira',q:'La vida es bella, y hay tanto por vivir. ¡Hoy comés rico y cuidás lo más valioso!'},
-  {e:'⚡',a:'Nietzsche',q:'Lo que no te mata, te hace más fuerte. Cada día de este plan te hace más invencible.'},
-  {e:'👑',a:'Queen',q:'We are the champions! Y vos, Pa Marce, sos el campeón de esta familia.'},
+  {q:'🎤 ¡The show must go on, Pa! 🎶 Vos sos el show más importante de nuestras vidas. ¡Hoy comés genial! 🌟',a:'— Freddie Mercury'},
+  {q:'🏛️ No pierdas tiempo argumentando. ¡Sé el mejor hombre que podés ser! Hoy lo estás logrando 💪✨',a:'— Marco Aurelio'},
+  {q:'🎸 It\'s my life — it\'s now or never! ¡Hoy es TU día, Pa Marce! ¡Dale que podés! 🔥🚀',a:'— Bon Jovi'},
+  {q:'🦉 Conócete a ti mismo. Vos sabés que podés, y nosotros también lo sabemos. ¡Adelante, crack! 💫🎯',a:'— Sócrates'},
+  {q:'💃 ¡La vida es bella y hay tanto por vivir! Hoy comés rico y cuidás lo más valioso. ¡Vamos! 🌈❤️',a:'— Shakira'},
+  {q:'⚡ ¡Lo que no te mata te hace más fuerte! Cada día de este plan te hace más invencible, Pa. 🦁💪',a:'— Nietzsche'},
+  {q:'👑 We are the champions! ¡Y vos, Pa Marce, sos el campeón absoluto de esta familia! 🏆🎊',a:'— Queen'},
 ];
+
 const MP=[
-  {e:'🫀',a:'Hipócrates',q:'Que tu medicina sea tu alimento. Cada pastilla es un escudo que te cuida, Pa.'},
-  {e:'🌟',a:'Paulo Coelho',q:'Cuando querés algo, todo el universo conspira para que lo logres. ¡Seguí así!'},
-  {e:'🦁',a:'Nelson Mandela',q:'Todo parece imposible hasta que se hace. ¡Ya estás en camino, Pa Marce!'},
-  {e:'💡',a:'Albert Einstein',q:'En medio de la dificultad reside la oportunidad. Cada día sano es más tiempo con ellas.'},
-  {e:'🔥',a:'Winston Churchill',q:'El éxito no es definitivo, el fracaso no es fatal. Lo que cuenta es el coraje de continuar.'},
-  {e:'🌈',a:'Madre Teresa',q:'Ayer ya pasó. Mañana aún no llegó. Tenemos solamente hoy. ¡Aprovechalo, Pa!'},
-  {e:'🎯',a:'Aristóteles',q:'Somos lo que hacemos repetidamente. La excelencia no es un acto, sino un hábito.'},
+  {q:'🫀 Cada pastillita es un superhéroe que cuida tu corazón. ¡Tomálas todas, Pa, que te queremos! 💊❤️',a:'— Hipócrates'},
+  {q:'🌟 ¡Cuando querés algo, el universo conspira! Esta familia conspira por vos todos los días. 🙏✨',a:'— Paulo Coelho'},
+  {q:'🦁 ¡Todo parece imposible hasta que se hace! Mirá todo lo que ya lograste. ¡Imparable! 💪🔥',a:'— Nelson Mandela'},
+  {q:'💡 En la dificultad reside la oportunidad. Cada día sano = más tiempo con los que amás. 💖🌈',a:'— Albert Einstein'},
+  {q:'🔥 El coraje es lo que cuenta. ¡Vos tenés más coraje que nadie, Pa Marce! ¡Seguí adelante! 🚀🏆',a:'— Winston Churchill'},
+  {q:'🌈 ¡Hoy es todo lo que tenemos! Y hoy, Pa, estás eligiendo la salud. ¡Eso es amor propio! 💛🌟',a:'— Madre Teresa'},
+  {q:'🎯 ¡Somos lo que hacemos cada día! Vos estás construyendo el mejor Pa Marce. ¡Orgullosos de vos! 🥰🏅',a:'— Aristóteles'},
 ];
+
 const MENU=[
   {b:[{t:'c',l:'Infusión',o:['☕ Café descafeinado','🫖 Té de hierbas']},{t:'x',v:'🥒 Pepino con queso untable light (1 cdita)'}],l:[{t:'x',v:'🍗 Pechuga al horno con limón y morrón'},{t:'c',l:'Ensalada',o:['🥗 Rúcula con tomate','🥒 Pepino con apio']}],s:[{t:'c',l:'Fruta',o:['🍓 Frutillas','🍐 Pera en trozos']},{t:'x',v:'🫖 Té frío sin azúcar'}],d:[{t:'x',v:'🐟 Merluza al vapor con limón y pimienta'},{t:'c',l:'Verdura',o:['🥬 Acelga rehogada con ajo','🫑 Morrón asado']}],p:[88,92,85,90]},
   {b:[{t:'c',l:'Infusión',o:['☕ Café descafeinado','🫖 Té de manzanilla']},{t:'x',v:'🫙 Yogur descremado natural (directo del frasco)'}],l:[{t:'x',v:'🫘 Lentejas hervidas con apio y ajo'},{t:'c',l:'Ensalada',o:['🥗 Rúcula y tomate cherry','🥒 Pepino con berenjena asada']}],s:[{t:'c',l:'Fruta',o:['🍐 Pera','🍑 Durazno']},{t:'x',v:'💧 Agua con rodajas de pepino'}],d:[{t:'x',v:'🍗 Brochetas de pollo con zapallito al horno'},{t:'c',l:'Acompañamiento',o:['🎃 Puré de calabaza','🥬 Espinaca salteada con ajo']}],p:[85,91,84,89]},
@@ -253,12 +252,17 @@ const MENU=[
   {b:[{t:'c',l:'Infusión',o:['🫖 Té verde','☕ Café descafeinado']},{t:'x',v:'🫙 Yogur descremado natural (directo del frasco)'}],l:[{t:'x',v:'🫘 Garbanzos hervidos con puerro, apio y tomate'},{t:'c',l:'Extra',o:['🫑 Morrón asado al horno','🥒 Pepino con limón y perejil']}],s:[{t:'c',l:'Fruta',o:['🍒 Cerezas frescas','🍓 Frutillas']},{t:'x',v:'💧 Agua fría'}],d:[{t:'x',v:'🍗 Pechuga al horno con hierbas y limón'},{t:'c',l:'Verdura',o:['🥦 Brócoli al vapor','🥗 Rúcula con tomate']}],p:[88,92,87,90]},
   {b:[{t:'c',l:'Infusión',o:['☕ Café descafeinado','🫖 Té verde sin azúcar']},{t:'x',v:'🥒 Pepino en rodajas con 1 cdita de queso untable light'}],l:[{t:'x',v:'🐟 Salmón al horno con limón y orégano'},{t:'c',l:'Ensalada',o:['🥗 Tomate, rúcula y pepino','🥒 Pepino con berenjena asada']}],s:[{t:'c',l:'Fruta',o:['🍓 Frutillas frescas','🍐 Pera en trozos']},{t:'x',v:'🫖 Té frío sin azúcar'}],d:[{t:'x',v:'🫘 Porotos negros hervidos con puerro'},{t:'c',l:'Verdura',o:['🥬 Espinaca salteada con ajo','🎃 Zapallo asado (chico)']}],p:[89,93,86,91]},
 ];
+
 const MI=['☀️','🍽️','🍎','🌙'];
 const MN=['Desayuno','Almuerzo','Merienda','Cena'];
 const PS=[
   {t:'Desayuno',i:'☀️',pills:[{n:'Bisoprolol',e:'🫀',c:'#4fc3f7',f:'Para el corazón guerrero'}]},
   {t:'Almuerzo',i:'🍽️',pills:[{n:'Aspirina',e:'🌡️',c:'#ef9a9a',f:'La clásica de siempre'}]},
-  {t:'Cena',i:'🌙',pills:[{n:'Ezetimibe',e:'🛡️',c:'#a5d6a7',f:'Escudo contra el colesterol'},{n:'Rosuvastatina',e:'⚡',c:'#ffcc80',f:'Energía controlada'},{n:'Prestoklar',e:'🌟',c:'#ce93d8',f:'La estrella de la noche'}]},
+  {t:'Cena',i:'🌙',pills:[
+    {n:'Ezetimibe',e:'🛡️',c:'#a5d6a7',f:'Escudo contra el colesterol'},
+    {n:'Rosuvastatina',e:'⚡',c:'#ffcc80',f:'Energía controlada'},
+    {n:'Prestoklar',e:'🌟',c:'#ce93d8',f:'La estrella de la noche'},
+  ]},
 ];
 
 let day=0,pk={},cs={};
@@ -270,8 +274,11 @@ function hcol(p){return p>=92?{bg:'#e8f5e9',t:'#1b5e20'}:p>=88?{bg:'#f1f8e9',t:'
 function ir(id){
   document.querySelectorAll('.sc').forEach(s=>s.classList.remove('on'));
   document.getElementById(id).classList.add('on');
-  if(id==='s2')renderMenu();
-  if(id==='s3')renderPills();
+  // nav activo
+  ['nb1','nb2','nb3'].forEach(n=>document.getElementById(n).classList.remove('activo'));
+  if(id==='s1')document.getElementById('nb1').classList.add('activo');
+  if(id==='s2'){document.getElementById('nb2').classList.add('activo');renderMenu();}
+  if(id==='s3'){document.getElementById('nb3').classList.add('activo');renderPills();}
 }
 
 function renderMenu(){
@@ -283,7 +290,7 @@ function renderMenu(){
     b.onclick=()=>{day=i;renderMenu();};ws.appendChild(b);
   }
   const m=MM[day];
-  document.getElementById('motiv').innerHTML=`<div class="mta"><div class="mau">${m.e} — ${m.a}</div><div class="mqt">"${m.q}"</div></div>`;
+  document.getElementById('motiv').innerHTML=`<div class="mta"><div class="mau">Frase del día ✨</div><div class="mqt">${m.q}</div><div style="font-size:11px;font-weight:800;color:#a05000;margin-top:6px;text-align:right">${m.a}</div></div>`;
   const D=MENU[day];const body=document.getElementById('mbody');body.innerHTML='';
   [[D.b,0],[D.l,1],[D.s,2],[D.d,3]].forEach(([items,mi])=>{
     const p=D.p[mi];const col=hcol(p);const card=document.createElement('div');card.className='mc';
@@ -292,7 +299,7 @@ function renderMenu(){
       const sel=gc(day,mi,ii);
       return`<div class="mic"><div class="cl">🔀 ${it.l}</div><div class="cps"><div class="cp${sel===0?' on':''}" onclick="sc2(${day},${mi},${ii},0)">${it.o[0]}</div><span class="csep">o</span><div class="cp${sel===1?' on':''}" onclick="sc2(${day},${mi},${ii},1)">${it.o[1]}</div></div></div>`;
     }).join('');
-    card.innerHTML=`<div class="mh"><div class="mt2"><span class="mi">${MI[mi]}</span><span class="mn">${MN[mi]}</span></div><div class="hb" style="background:${col.bg}"><span style="font-size:14px">${hec(p)}</span><span class="hp" style="color:${col.t}">${p}%</span></div></div><div class="mitems">${ih}</div>`;
+    card.innerHTML=`<div class="mh"><div class="mt2"><span class="mi">${MI[mi]}</span><span class="mn">${MN[mi]}</span></div><div class="hb" style="background:${col.bg}"><span style="font-size:16px">${hec(p)}</span><span class="hp" style="color:${col.t}">${p}%</span></div></div><div class="mitems">${ih}</div>`;
     body.appendChild(card);
   });
 }
@@ -301,7 +308,7 @@ function renderPills(){
   const t=new Date();
   document.getElementById('s3d').textContent=`Hoy: ${DAYS[t.getDay()]} ${t.getDate()} ${MONTHS[t.getMonth()]}`;
   const mp=MP[t.getDay()];
-  document.getElementById('motiv3').innerHTML=`<div class="mta3"><div class="mau3">${mp.e} — ${mp.a}</div><div class="mqt3">"${mp.q}"</div></div>`;
+  document.getElementById('motiv3').innerHTML=`<div class="mta3"><div class="mau3">Frase del día ✨</div><div class="mqt3">${mp.q}</div><div style="font-size:11px;font-weight:800;color:#5b2d99;margin-top:6px;text-align:right">${mp.a}</div></div>`;
   const body=document.getElementById('pbody');body.innerHTML='';
   let tot=0,chk=0;
   PS.forEach((sec,si)=>{
@@ -315,14 +322,15 @@ function renderPills(){
   });
   const pct=Math.round(chk/tot*100);const C=2*Math.PI*34;const dash=C*(chk/tot);
   const pw=document.createElement('div');pw.className='prw';
-  pw.innerHTML=`<svg width="80" height="80" viewBox="0 0 80 80"><circle cx="40" cy="40" r="34" fill="none" stroke="#f0e6ff" stroke-width="7"/><circle cx="40" cy="40" r="34" fill="none" stroke="#a18cd1" stroke-width="7" stroke-dasharray="${dash.toFixed(1)} ${C.toFixed(1)}" stroke-dashoffset="${(C/4).toFixed(1)}" stroke-linecap="round"/><text x="40" y="45" text-anchor="middle" font-family="Nunito" font-size="16" font-weight="900" fill="#a18cd1">${pct}%</text></svg><div class="prl">💊 Pastillas tomadas hoy</div>`;
+  pw.innerHTML=`<svg width="88" height="88" viewBox="0 0 88 88"><circle cx="44" cy="44" r="34" fill="none" stroke="#ede0ff" stroke-width="8"/><circle cx="44" cy="44" r="34" fill="none" stroke="#a18cd1" stroke-width="8" stroke-dasharray="${dash.toFixed(1)} ${C.toFixed(1)}" stroke-dashoffset="${(C/4).toFixed(1)}" stroke-linecap="round"/><text x="44" y="49" text-anchor="middle" font-family="Nunito" font-size="17" font-weight="900" fill="#a18cd1">${pct}%</text></svg><div class="prl">💊 Pastillas tomadas hoy</div>`;
   body.appendChild(pw);
 }
 
 function tp(k){
   pk[k]=!pk[k];renderPills();
   const tot=PS.reduce((a,s)=>a+s.pills.length,0);
-  if(Object.values(pk).filter(Boolean).length===tot)setTimeout(()=>document.getElementById('cel').classList.add('on'),400);
+  if(Object.values(pk).filter(Boolean).length===tot)
+    setTimeout(()=>document.getElementById('cel').classList.add('on'),400);
 }
 function closeCel(){document.getElementById('cel').classList.remove('on');pk={};renderPills();}
 
