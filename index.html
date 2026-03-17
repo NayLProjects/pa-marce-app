@@ -444,88 +444,88 @@ const MP=[
   {q:'🎯 ¡Somos lo que hacemos cada día! Vos estás construyendo el mejor Pa Marce. ¡Orgullosos! 🥰🏅',a:'— Aristóteles'},
 ];
 
-// ---- POOL DE ENSALADAS (más de 10 opciones con alimentos permitidos) ----
+// ---- POOL DE ENSALADAS ----
+// Solo alimentos permitidos por la nutricionista y bajo IG
+// Eliminados: zanahoria, zapallo, calabaza, remolacha (IG alto cocidos)
 const ENSALADAS = [
-  // Originales
-  {a:'🥗 Rúcula con tomate cherry y pepino',         b:'🧅 Cebolla morada con tomate y orégano'},
-  {a:'🥒 Pepino con apio y pimienta negra',           b:'🫑 Morrón asado con rúcula'},
-  {a:'🥬 Espinaca fresca con tomate y pepino',        b:'🧄 Berenjena asada con ajo y orégano'},
-  {a:'🥦 Brócoli al vapor con limón',                 b:'🥕 Zanahoria rallada con limón y perejil'},
-  {a:'🌿 Rúcula con pepino y semillas de lino',       b:'🫛 Apio con tomate y cúrcuma'},
-  {a:'🥒 Pepino con berenjena asada y ajo',           b:'🫑 Morrón rojo con rúcula y tomate'},
-  {a:'🥬 Acelga hervida con ajo y limón',             b:'🧅 Puerro salteado con zanahoria'},
-  {a:'🥗 Rúcula con tomate y semillas de chía',       b:'🥒 Pepino con tomate y orégano'},
-  {a:'🌿 Espinaca con apio y pepino',                 b:'🫑 Morrón asado con berenjena y ajo'},
-  {a:'🥦 Brócoli y zapallito al vapor',               b:'🥕 Zanahoria con pepino y cúrcuma'},
-  {a:'🥒 Pepino y tomate con semillas de lino',       b:'🧄 Rúcula con ajo y limón'},
-  {a:'🫛 Apio con rúcula y pimienta',                 b:'🥬 Acelga con tomate cherry'},
-  // Nuevas
-  {a:'🥗 Rúcula, pepino y morrón asado',              b:'🥬 Espinaca con remolacha y limón'},
-  {a:'🫑 Morrón rojo y verde con apio',               b:'🥒 Pepino con zanahoria y orégano'},
-  {a:'🥦 Brócoli con tomate cherry y cúrcuma',        b:'🌿 Rúcula con berenjena asada y ajo'},
-  {a:'🧅 Puerro con espinaca y semillas de chía',     b:'🥕 Zanahoria rallada con remolacha'},
-  {a:'🫛 Apio con tomate y pepino al limón',          b:'🥬 Acelga fresca con morrón y orégano'},
-  {a:'🥒 Pepino, rúcula y semillas de lino',          b:'🧄 Berenjena asada con tomate y ajo'},
-  {a:'🥗 Rúcula con zapallito y pimienta negra',      b:'🫑 Morrón asado con espinaca y limón'},
-  {a:'🥦 Brócoli con apio y zanahoria',               b:'🧅 Cebolla morada con rúcula y tomate'},
-  {a:'🌿 Espinaca con morrón rojo y cúrcuma',         b:'🥒 Pepino con remolacha rallada'},
-  {a:'🫛 Apio con pepino y semillas de chía',         b:'🥬 Acelga con zanahoria y ajo'},
+  {a:'🥗 Rúcula con tomate cherry y pepino',           b:'🧅 Cebolla morada con tomate y orégano'},
+  {a:'🥒 Pepino con apio y pimienta negra',             b:'🫑 Morrón asado con rúcula y ajo'},
+  {a:'🥬 Espinaca fresca con tomate y pepino',          b:'🧄 Berenjena asada con ajo y orégano'},
+  {a:'🌿 Rúcula con pepino y semillas de lino',         b:'🫛 Apio con tomate y cúrcuma'},
+  {a:'🥒 Pepino con berenjena asada y ajo',             b:'🫑 Morrón rojo y verde con rúcula'},
+  {a:'🥬 Acelga hervida con ajo y limón',               b:'🧅 Puerro salteado con tomate'},
+  {a:'🥗 Rúcula con tomate y semillas de chía',         b:'🥒 Pepino con tomate y orégano'},
+  {a:'🌿 Espinaca con apio y pepino',                   b:'🫑 Morrón asado con berenjena y ajo'},
+  {a:'🥒 Pepino y tomate con semillas de lino',         b:'🧄 Rúcula con ajo y limón'},
+  {a:'🫛 Apio con rúcula y pimienta negra',             b:'🥬 Acelga con tomate cherry'},
+  {a:'🥗 Rúcula, pepino y morrón asado',               b:'🥬 Espinaca con tomate y limón'},
+  {a:'🫑 Morrón rojo y verde con apio picado',         b:'🥒 Pepino con brócoli y orégano'},
+  {a:'🥬 Brócoli al vapor con tomate y cúrcuma',        b:'🌿 Rúcula con berenjena asada y ajo'},
+  {a:'🧅 Puerro con espinaca y semillas de chía',       b:'🫛 Apio con tomate y pepino'},
+  {a:'🫛 Apio con tomate y pepino al limón',            b:'🥬 Acelga fresca con morrón y orégano'},
+  {a:'🥒 Pepino, rúcula y semillas de lino',            b:'🧄 Berenjena asada con tomate y ajo'},
+  {a:'🥗 Rúcula con zapallito crudo y pimienta',        b:'🫑 Morrón asado con espinaca y limón'},
+  {a:'🧅 Cebolla morada con rúcula y tomate',           b:'🌿 Espinaca con morrón rojo y cúrcuma'},
+  {a:'🫛 Apio con pepino y semillas de chía',           b:'🥬 Acelga con puerro y ajo'},
+  {a:'🥒 Pepino con tomate y cebolla morada',           b:'🥗 Rúcula con puerro y pimienta'},
+  {a:'🧄 Berenjena asada con rúcula y limón',           b:'🥬 Espinaca con apio y semillas de lino'},
+  {a:'🫑 Morrón asado con zapallito crudo y orégano',   b:'🥒 Pepino con brócoli al vapor y ajo'},
 ];
 
-// Genera una ensalada aleatoria-pero-estable para un día dado
-// Usa el número del día del año como seed para que no cambie durante el día
-function getEnsalada(dayOffset, mealKey) {
+function getEnsalada(dayOffset, salt) {
   const d = new Date();
   d.setDate(d.getDate() + dayOffset);
-  const seed = d.getFullYear() * 1000 + Math.floor((d - new Date(d.getFullYear(),0,0))/(1000*60*60*24));
-  const idx = (seed + mealKey * 7) % ENSALADAS.length;
+  const seed = d.getFullYear() * 10000 + (d.getMonth()+1) * 100 + d.getDate();
+  const idx = (seed + salt * 17) % ENSALADAS.length;
   const e = ENSALADAS[idx];
   return [e.a, e.b];
 }
 
-// ---- POOL DE PROTEÍNAS ----
+// ---- PROTEÍNAS — solo pollo y pescado blanco (sin salmón) ----
 const PROTEINAS_ALMUERZO = [
   '🍗 Pechuga de pollo al horno con limón y morrón',
   '🐟 Merluza al vapor con limón y pimienta',
-  '🍗 Pollo hervido con verduras y ajo',
-  '🐟 Filete de pescado al horno con orégano',
+  '🍗 Pollo hervido desmenuzado con verduras y ajo',
+  '🐟 Filete de pescado al horno con orégano y limón',
   '🍗 Brochetas de pollo con zapallito al horno',
-  '🐟 Salmón al horno con limón y hierbas',
-  '🍗 Pollo al horno con cúrcuma y puerro',
+  '🐟 Merluza al horno con cúrcuma y pimienta',
+  '🍗 Pollo al horno con puerro y hierbas',
 ];
 const PROTEINAS_CENA = [
-  '🐟 Merluza al vapor con limón y pimienta',
+  '🐟 Merluza al vapor con limón y pimienta negra',
   '🍗 Pechuga al horno con hierbas y limón',
-  '🐟 Filete de pescado con ajo y orégano',
+  '🐟 Filete de pescado con ajo y cúrcuma',
   '🍗 Pollo hervido desmenuzado con verduras',
-  '🐟 Salmón al horno con limón',
-  '🍗 Brochetas de pollo con morrón',
-  '🐟 Merluza al horno con cúrcuma',
+  '🐟 Merluza al horno con morrón y orégano',
+  '🍗 Brochetas de pollo con brócoli al vapor',
+  '🐟 Filete de pescado al vapor con limón y pimienta',
 ];
 
-// ---- POOL DE LEGUMBRES ----
+// ---- LEGUMBRES ----
 const LEGUMBRES = [
   '🫘 Lentejas hervidas con apio y ajo',
   '🫘 Garbanzos hervidos con puerro, apio y tomate',
   '🫘 Cazuela de arvejas con apio y tomate',
   '🫘 Porotos negros hervidos con puerro',
-  '🫘 Lentejas con zanahoria y cúrcuma',
+  '🫘 Lentejas con espinaca y cúrcuma',
   '🫘 Garbanzos con espinaca y ajo',
   '🌾 Arroz yamaní (½ taza) con pollo y verduras',
 ];
 
-// ---- POOL DE FRUTAS ----
+// ---- FRUTAS — otoño CABA + bajo índice glucémico ----
+// IG: pera 30, mandarina 30, manzana 35, pomelo ~25, kiwi 50
+// Eliminadas: uva (IG 56 moderado/alto), frutillas/cerezas/duraznos (fuera temporada)
 const FRUTAS = [
-  ['🍓 Frutillas frescas',    '🍐 Pera en trozos'],
-  ['🍑 Durazno fresco',       '🥝 Kiwi'],
-  ['🍊 Pomelo a gajos',       '🍒 Cerezas (puñadito)'],
-  ['🍑 Damascos (2 unidades)','🍓 Frutillas frescas'],
-  ['🍐 Pera',                 '🍑 Durazno'],
-  ['🍒 Cerezas frescas',      '🍓 Frutillas'],
-  ['🥝 Kiwi fresco',          '🍐 Pera en trozos'],
+  ['🍐 Pera en trozos (con cáscara)',     '🍎 Manzana verde en rodajas'],
+  ['🍊 Mandarina (1 unidad)',             '🍐 Pera en trozos'],
+  ['🍊 Pomelo a gajos',                  '🍎 Manzana en gajos (con cáscara)'],
+  ['🥝 Kiwi en rodajas',                 '🍊 Mandarina (1 unidad)'],
+  ['🍎 Manzana verde en rodajas',        '🍊 Pomelo a gajos'],
+  ['🍐 Pera Williams en trozos',         '🥝 Kiwi en rodajas'],
+  ['🍊 Mandarina (1 unidad)',            '🍎 Manzana en gajos'],
 ];
 
-// ---- POOL DE DESAYUNOS (sin cocinar) ----
+// ---- DESAYUNOS (sin cocinar) ----
 const DESAYUNOS_BEBIDA = [
   ['☕ Café descafeinado',            '🫖 Té de hierbas en saquito'],
   ['🫖 Té de manzanilla en saquito',  '🫖 Té verde en saquito'],
@@ -538,64 +538,54 @@ const DESAYUNOS_BEBIDA = [
 const DESAYUNOS_COMIDA = [
   '🥒 Pepino en rodajas con 1 cdita de queso untable light',
   '🧀 Rodajita de port salut sin sal con tomate',
-  '🥒 Pepino fresco y tomate en rodajas (así nomás)',
-  '🧀 1 cdita de queso untable light en apio',
-  '🥒 Pepino con orégano y pimienta (abrir y servir)',
+  '🥒 Pepino fresco y tomate en rodajas',
+  '🧀 1 cdita de queso untable light con apio',
+  '🥒 Pepino con orégano y pimienta',
   '🧀 Port salut sin sal con pepino y tomate cherry',
   '🫙 Yogur descremado natural sin azúcar (directo del frasco)',
 ];
 
-// ---- VERDURAS DE ACOMPAÑAMIENTO ----
+// ---- VERDURAS — solo bajo IG ----
+// Eliminadas: zanahoria (IG alto cocida), zapallo/calabaza (IG alto), remolacha (IG alto)
+// Sí: acelga, espinaca, morrón, brócoli, berenjena, zapallito (distinto al zapallo), apio, puerro
 const VERDURAS = [
   ['🥬 Acelga rehogada con ajo',         '🫑 Morrón asado al horno'],
-  ['🥦 Brócoli al vapor con ajo',         '🎃 Zapallo asado (chico)'],
+  ['🥦 Brócoli al vapor con ajo',         '🧄 Berenjena asada con orégano'],
   ['🥬 Espinaca salteada con ajo',        '🥦 Brócoli al vapor con limón'],
-  ['🫑 Morrón asado',                     '🥬 Acelga hervida con ajo'],
-  ['🎃 Puré de calabaza',                 '🥦 Brócoli con cúrcuma'],
-  ['🥬 Espinaca al vapor',               '🫑 Morrón asado con orégano'],
+  ['🫑 Morrón asado con orégano',        '🥬 Acelga hervida con ajo'],
+  ['🧄 Berenjena asada con tomate',       '🥦 Brócoli con cúrcuma al vapor'],
+  ['🥬 Espinaca al vapor con limón',     '🫑 Morrón asado con ajo'],
   ['🧅 Puerro salteado con ajo',          '🥦 Brócoli y zapallito al vapor'],
 ];
 
-// Función que genera el menú de un día de forma semi-aleatoria pero estable
 function getMenuDia(dayOffset) {
   const d = new Date();
   d.setDate(d.getDate() + dayOffset);
   const s = d.getFullYear() * 10000 + (d.getMonth()+1) * 100 + d.getDate();
   const pick = (arr, salt) => arr[(s + salt * 13) % arr.length];
 
-  const beb  = pick(DESAYUNOS_BEBIDA,  0);
-  const com  = pick(DESAYUNOS_COMIDA,  1);
-  const prot_l = pick(PROTEINAS_ALMUERZO, 2);
-  const ens_l  = getEnsalada(dayOffset, 2);
-  const fru  = pick(FRUTAS,            3);
-  const leg  = pick(LEGUMBRES,         4);
-  const prot_c = pick(PROTEINAS_CENA,  5);
-  const verd = pick(VERDURAS,          6);
-
   return {
     b:[
-      {t:'c', l:'Bebida a elegir', o: beb},
-      {t:'x', v: com},
+      {t:'c', l:'Bebida a elegir', o: pick(DESAYUNOS_BEBIDA, 0)},
+      {t:'x', v: pick(DESAYUNOS_COMIDA, 1)},
     ],
     l:[
-      {t:'x', v: prot_l},
-      {t:'c', l:'Ensalada a elegir', o: ens_l},
+      {t:'x', v: pick(PROTEINAS_ALMUERZO, 2)},
+      {t:'c', l:'Ensalada a elegir', o: getEnsalada(dayOffset, 3)},
     ],
     s:[
-      {t:'c', l:'Fruta a elegir', o: fru},
+      {t:'c', l:'Fruta de temporada', o: pick(FRUTAS, 4)},
       {t:'x', v:'💧 Agua o té frío sin azúcar'},
     ],
     d:[
-      {t:'x', v: prot_c},
-      {t:'c', l:'Verdura a elegir', o: verd},
+      {t:'x', v: pick(PROTEINAS_CENA, 5)},
+      {t:'c', l:'Verdura a elegir', o: pick(VERDURAS, 6)},
     ],
     p:[88,92,85,90]
   };
 }
 
-// El MENU ahora se genera dinámicamente
 const MENU = Array.from({length:7}, (_,i) => getMenuDia(i));
-
 
 const MI=['☀️','🍽️','🍎','🌙'];
 const MN=['Desayuno','Almuerzo','Merienda','Cena'];
