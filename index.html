@@ -174,6 +174,8 @@ html,body{width:100%;height:100%;overflow:hidden;background:#f0f0f0;font-family:
 .cf{font-size:26px;letter-spacing:8px;margin-bottom:20px;animation:sk .5s ease-in-out infinite alternate}
 @keyframes sk{from{transform:translateX(-5px)}to{transform:translateX(5px)}}
 .cbt{padding:14px 32px;border-radius:999px;border:none;cursor:pointer;background:#f9ca24;color:#1a1a2e;font-family:'Nunito';font-size:16px;font-weight:900}
+.cclose{position:absolute;top:18px;right:20px;background:rgba(255,255,255,.15);border:none;cursor:pointer;color:#fff;font-size:26px;font-weight:900;width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Nunito';line-height:1}
+.cclose:active{background:rgba(255,255,255,.3)}
 </style>
 </head>
 <body>
@@ -263,6 +265,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#f0f0f0;font-family:
 
 <!-- CELEBRACIÓN PASTILLAS -->
 <div class="cel" id="cel">
+  <button class="cclose" onclick="closeCel()">✕</button>
   <div class="cf">🎉🏆🎊</div>
   <div class="ce">🦁</div>
   <div class="ct">¡VAMOS,<br>PUMA PARA ARRIBA!</div>
@@ -273,12 +276,24 @@ html,body{width:100%;height:100%;overflow:hidden;background:#f0f0f0;font-family:
 
 <!-- CELEBRACIÓN COMIDAS -->
 <div class="cel" id="cel2">
+  <button class="cclose" onclick="document.getElementById('cel2').classList.remove('on')">✕</button>
   <div class="cf">🥗🍗🥦</div>
   <div class="ce">🌟</div>
   <div class="ct">¡DÍA PERFECTO!</div>
   <div class="cs">¡Cumpliste todas las comidas del día! 🤟<br>Así se llega a los 86kg, Pa Marce! 💪<br>¡La familia está orgullosa de vos! 🥰</div>
   <div class="cf">🎊✨🎉</div>
   <button class="cbt" onclick="document.getElementById('cel2').classList.remove('on')">¡Soy lo máximo! 😄</button>
+</div>
+
+<!-- CELEBRACIÓN RACHA 7 DÍAS -->
+<div class="cel" id="cel3">
+  <button class="cclose" onclick="document.getElementById('cel3').classList.remove('on')">✕</button>
+  <div class="cf">🔥💪🔥</div>
+  <div class="ce">🏆</div>
+  <div class="ct">¡7 DÍAS<br>SEGUIDOS!</div>
+  <div class="cs">¡Una semana siendo consistente, Pa Marce! 🤟<br>¡Eso es una voluntad de acero! ❤️<br>¡Toda la familia te aplaude! 👏🥰</div>
+  <div class="cf">⭐🌟✨</div>
+  <button class="cbt" onclick="document.getElementById('cel3').classList.remove('on')">¡Lo sé, soy crack! 😄</button>
 </div>
 
 <script>
@@ -335,6 +350,8 @@ function renderRacha(){
   // Progreso
   document.getElementById('racha-big').textContent=r;
   document.getElementById('racha-big-label').textContent=r===1?'día de consistencia para mejorar 💙':'días de consistencia para mejorar 💙';
+  // Celebración al llegar a 7 días exactos
+  if(r===7) setTimeout(()=>document.getElementById('cel3').classList.add('on'),600);
   // Últimos 7 días
   const sem=document.getElementById('racha-semana');sem.innerHTML='';
   const totalPills=PS.reduce((a,s)=>a+s.pills.length,0);
