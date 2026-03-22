@@ -306,13 +306,24 @@ function dateKey(d){return `${d.getFullYear()}_${d.getMonth()+1}_${d.getDate()}`
 function todayKey(){return dateKey(new Date());}
 
 // ---- STORAGE ----
-function pkKey(){return "pk_"+todayKey();}
-function loadPk(){try{const r=localStorage.getItem(pkKey());return r?JSON.parse(r):{}}catch(e){return{};}}
-function savePk(p){try{localStorage.setItem(pkKey(),JSON.stringify(p));}catch(e){}}
+// Pastillas: clave por fecha específica
+function pkKeyFor(d){return "pk_"+dateKey(d);}
+function pkKeyToday(){return pkKeyFor(new Date());}
+function loadPkFor(d){try{const r=localStorage.getItem(pkKeyFor(d));return r?JSON.parse(r):{}}catch(e){return{};}}
+function savePkFor(d,p){try{localStorage.setItem(pkKeyFor(d),JSON.stringify(p));}catch(e){}}
+// Compatibilidad con código existente (pantalla pastillas = siempre hoy)
+function pkKey(){return pkKeyToday();}
+function loadPk(){return loadPkFor(new Date());}
+function savePk(p){savePkFor(new Date(),p);}
 
-function ckKey(){return "ck_"+todayKey();} // comidas
-function loadCk(){try{const r=localStorage.getItem(ckKey());return r?JSON.parse(r):{}}catch(e){return{};}}
-function saveCk(c){try{localStorage.setItem(ckKey(),JSON.stringify(c));}catch(e){}}
+// Comidas: clave por fecha específica (no por dayOffset)
+function ckKeyFor(d){return "ck_"+dateKey(d);}
+function loadCkFor(d){try{const r=localStorage.getItem(ckKeyFor(d));return r?JSON.parse(r):{}}catch(e){return{};}}
+function saveCkFor(d,c){try{localStorage.setItem(ckKeyFor(d),JSON.stringify(c));}catch(e){}}
+// Compatibilidad
+function ckKey(){return ckKeyFor(new Date());}
+function loadCk(){return loadCkFor(new Date());}
+function saveCk(c){saveCkFor(new Date(),c);}
 
 function loadPesos(){try{const r=localStorage.getItem('pesos');return r?JSON.parse(r):{}}catch(e){return{};}}
 function savePesos(p){try{localStorage.setItem('pesos',JSON.stringify(p));}catch(e){}}
@@ -450,6 +461,8 @@ const MM=[
   {q:'💃 ¡La vida es bella y hay tanto por vivir! Hoy comés rico y cuidás lo más valioso. ¡Vamos! 🌈❤️',a:'— Shakira'},
   {q:'⚡ ¡Lo que no te mata te hace más fuerte! Cada día de este plan te hace más invencible, Pa. 🦁💪',a:'— Nietzsche'},
   {q:'👑 We are the champions! ¡Y vos, Pa Marce, sos el campeón absoluto de esta familia! 🏆🎊',a:'— Queen'},
+  // Extra para cuando day=-1 (ayer)
+  {q:'🌙 Ayer lo hiciste muy bien, Pa Marce. ¡Cada día cuenta y el de ayer también! Mirá todo lo que lograste. 💪✨',a:'— Tu familia'},
 ];
 const MP=[
   {q:'🫀 Cada pastillita es un superhéroe que cuida tu corazón. ¡Tomálas todas, Pa, que te queremos! 💊❤️',a:'— Hipócrates'},
@@ -602,7 +615,10 @@ function getMenuDia(dayOffset) {
   };
 }
 
-const MENU = Array.from({length:7}, (_,i) => getMenuDia(i));
+// MENU: índice 0 = ayer, índice 1 = hoy, ..., índice 6 = en 5 días
+// Para convertir day (offset) a índice: day + 1
+const MENU = Array.from({length:7}, (_,i) => getMenuDia(i-1));
+function menuIdx(d){return d+1;} // day=-1 → 0, day=0 → 1, etc.
 
 const MI=['☀️','🍽️','🍎','🌙'];
 const MN=['Desayuno','Almuerzo','Merienda','Cena'];
@@ -612,7 +628,7 @@ const PS=[
   {t:'Cena',i:'🌙',pills:[{n:'Ezetimibe',e:'🛡️',c:'#a5d6a7',f:'Escudo contra el colesterol'},{n:'Rosuvastatina',e:'⚡',c:'#ffcc80',f:'Energía controlada'},{n:'Prestoklar',e:'🌟',c:'#ce93d8',f:'La estrella de la noche'}]},
 ];
 
-let day=0, cs={};
+let day=0, cs={}; // day=0 es hoy, day=-1 es ayer
 let pk=loadPk();
 
 function gc(d,m,i){return(cs[d]&&cs[d][m]&&cs[d][m][i]!=null)?cs[d][m][i]:null;}
@@ -631,32 +647,39 @@ function ir(id){
 }
 
 // ---- COMIDAS ----
-function ckIdx(dayOffset,mealIdx){return `${dayOffset}_${mealIdx}`;}
+function dayDate(offset){
+  // Devuelve el objeto Date para un dayOffset dado
+  const d=new Date();d.setHours(0,0,0,0);d.setDate(d.getDate()+offset);return d;
+}
+function ckIdx(mealIdx){return `meal_${mealIdx}`;}
 function toggleComida(dayOffset,mealIdx){
-  const ck=loadCk();
-  const k=ckIdx(dayOffset,mealIdx);
+  const d=dayDate(dayOffset);
+  const ck=loadCkFor(d);
+  const k=ckIdx(mealIdx);
   ck[k]=!ck[k];
-  saveCk(ck);
+  saveCkFor(d,ck);
   renderMenu();
-  // Si es el día de hoy y completó las 4
+  // Celebración solo si es hoy y completó las 4
   if(dayOffset===0){
-    const done=[0,1,2,3].filter(mi=>ck[ckIdx(0,mi)]).length;
+    const done=[0,1,2,3].filter(mi=>ck[ckIdx(mi)]).length;
     if(done===4) setTimeout(()=>document.getElementById('cel2').classList.add('on'),400);
   }
 }
 
 function renderMenu(){
   const ws=document.getElementById('wscroll');ws.innerHTML='';
-  for(let i=0;i<7;i++){
+  // Tabs: desde ayer (-1) hasta 5 días adelante (+5) = 7 tabs
+  for(let i=-1;i<6;i++){
     const inf=dl(i);const b=document.createElement('button');
     b.className='dp'+(i===day?' on':'');
-    b.innerHTML=`<b>${inf.l}</b><br><span style="font-size:10px">${inf.d}</span>`;
+    const label=i===-1?'<b style="color:#ee5a24">Ayer</b>':i===0?'<b>Hoy</b>':`<b>${inf.l}</b>`;
+    b.innerHTML=`${label}<br><span style="font-size:10px">${inf.d}</span>`;
     b.onclick=()=>{day=i;renderMenu();};ws.appendChild(b);
   }
-  const m=MM[day];
+  const m=MM[menuIdx(day)] || MM[1];
   document.getElementById('motiv').innerHTML=`<div class="mta"><div class="mau">Frase del día ✨</div><div class="mqt">${m.q}</div><div style="font-size:11px;font-weight:800;color:#a05000;margin-top:6px;text-align:right">${m.a}</div></div>`;
-  const D=MENU[day];const body=document.getElementById('mbody');body.innerHTML='';
-  const ck=loadCk();
+  const D=MENU[menuIdx(day)] || MENU[1];const body=document.getElementById('mbody');body.innerHTML='';
+  const ck=loadCkFor(dayDate(day));
   [[D.b,0],[D.l,1],[D.s,2],[D.d,3]].forEach(([items,mi])=>{
     const p=D.p[mi];const col=hcol(p);const card=document.createElement('div');card.className='mc';
     const ih=items.map((it,ii)=>{
@@ -664,7 +687,7 @@ function renderMenu(){
       const sel=gc(day,mi,ii);
       return`<div class="mic"><div class="cl">🔀 ${it.l}</div><div class="cps"><div class="cp${sel===0?' on':''}" onclick="sc2(${day},${mi},${ii},0)">${it.o[0]}</div><span class="csep">o</span><div class="cp${sel===1?' on':''}" onclick="sc2(${day},${mi},${ii},1)">${it.o[1]}</div></div></div>`;
     }).join('');
-    const ckDone=!!ck[ckIdx(day,mi)];
+    const ckDone=!!ck[ckIdx(mi)];
     const checkRow=`<div class="meal-check-row">
       <span class="meal-check-label">${ckDone?'✅ ¡Comida cumplida!':'¿Cumpliste esta comida?'}</span>
       <button class="meal-check-btn ${ckDone?'hecho':'pendiente'}" onclick="toggleComida(${day},${mi})">
