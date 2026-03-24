@@ -180,6 +180,17 @@ html,body{width:100%;height:100%;overflow:hidden;background:#f0f0f0;font-family:
 .cbt{padding:14px 32px;border-radius:999px;border:none;cursor:pointer;background:#f9ca24;color:#1a1a2e;font-family:'Nunito';font-size:16px;font-weight:900}
 .cclose{position:absolute;top:18px;right:20px;background:rgba(255,255,255,.15);border:none;cursor:pointer;color:#fff;font-size:26px;font-weight:900;width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Nunito';line-height:1}
 .cclose:active{background:rgba(255,255,255,.3)}
+/* Modal confirmación pastilla */
+.pill-modal-bg{display:none;position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.55);align-items:center;justify-content:center;padding:24px}
+.pill-modal-bg.on{display:flex}
+.pill-modal{background:#fff;border-radius:28px;padding:28px 24px 22px;text-align:center;box-shadow:0 12px 40px rgba(0,0,0,.25);max-width:320px;width:100%}
+.pill-modal-emoji{font-size:52px;margin-bottom:8px;animation:si .5s ease}
+.pill-modal-msg{font-family:'Pacifico',cursive;font-size:22px;color:#1a1a2e;line-height:1.4;margin-bottom:6px}
+.pill-modal-sub{font-size:15px;color:#888;font-weight:700;margin-bottom:22px}
+.pill-modal-btns{display:flex;gap:12px}
+.pill-modal-si{flex:1;padding:14px;border-radius:18px;border:none;cursor:pointer;background:linear-gradient(135deg,#a18cd1,#7d3c98);color:#fff;font-family:'Nunito';font-size:16px;font-weight:900}
+.pill-modal-no{flex:1;padding:14px;border-radius:18px;border:none;cursor:pointer;background:#f0f0f0;color:#888;font-family:'Nunito';font-size:16px;font-weight:800}
+.pill-modal-si:active{transform:scale(.97)}.pill-modal-no:active{transform:scale(.97)}
 </style>
 </head>
 <body>
@@ -299,6 +310,19 @@ html,body{width:100%;height:100%;overflow:hidden;background:#f0f0f0;font-family:
   <div class="cs">¡Una semana siendo consistente, Pa Marce! 🤟<br>¡Eso es una voluntad de acero! ❤️<br>¡Toda la familia te aplaude! 👏🥰</div>
   <div class="cf">⭐🌟✨</div>
   <button class="cbt" onclick="document.getElementById('cel3').classList.remove('on')">¡Lo sé, soy crack! 😄</button>
+</div>
+
+<!-- Modal confirmación pastilla -->
+<div class="pill-modal-bg" id="pillModal">
+  <div class="pill-modal">
+    <div class="pill-modal-emoji" id="pillModalEmoji">💊</div>
+    <div class="pill-modal-msg" id="pillModalMsg">¿Tomaste la pastillita?</div>
+    <div class="pill-modal-sub" id="pillModalSub">Con amor, tus hijas 🥰</div>
+    <div class="pill-modal-btns">
+      <button class="pill-modal-si" id="pillModalSi" onclick="confirmPillModal()">¡Sí, la tomé! ✓</button>
+      <button class="pill-modal-no" onclick="closePillModal()">No todavía</button>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -752,11 +776,9 @@ function toggleComida(dayOffset,mealIdx){
   ck[k]=!ck[k];
   saveCkFor(d,ck);
   renderMenu();
-  // Celebración solo si es hoy y completó las 4
-  if(dayOffset===0){
-    const done=[0,1,2,3].filter(mi=>ck[ckIdx(mi)]).length;
-    if(done===4) setTimeout(()=>document.getElementById('cel2').classList.add('on'),400);
-  }
+  // Celebrar si completó las 4 comidas (cualquier día)
+  const done=[0,1,2,3].filter(mi=>ck[ckIdx(mi)]).length;
+  if(done===4) setTimeout(()=>document.getElementById('cel2').classList.add('on'),400);
 }
 
 function renderMenu(){
@@ -847,18 +869,41 @@ function tp(k){
     setTimeout(()=>document.getElementById('cel').classList.add('on'),400);
 }
 
-// Toca pastilla en día anterior — pregunta confirmación
+// Modal confirmación pastilla para días anteriores
+let _pillModalCallback=null;
+
 function tpConfirm(k, dateObj){
   const pkDay=loadPkFor(dateObj);
   const yaEstaba=!!pkDay[k];
-  const msg=yaEstaba
-    ? '¿Seguro que querés desmarcar esta pastilla, papito? 🤔💊'
-    : '¿Estás seguro papito que tomaste la pastillita? 💊🥰';
-  if(confirm(msg)){
+  // Configurar modal
+  document.getElementById('pillModalEmoji').textContent = yaEstaba ? '🤔💊' : '💊🥰';
+  document.getElementById('pillModalMsg').textContent = yaEstaba
+    ? '¿Querés desmarcar esta pastillita?'
+    : '¿Tomaste esta pastillita, papito?';
+  document.getElementById('pillModalSub').textContent = 'Con amor, tus hijas 🥰';
+  document.getElementById('pillModalSi').textContent = yaEstaba ? 'Sí, desmarcar' : '¡Sí, la tomé! ✓';
+  // Guardar callback
+  _pillModalCallback=()=>{
     pkDay[k]=!pkDay[k];
     savePkFor(dateObj,pkDay);
     renderPills();
-  }
+  };
+  document.getElementById('pillModal').classList.add('on');
+}
+
+function confirmPillModal(){
+  if(_pillModalCallback) _pillModalCallback();
+  closePillModal();
+  // Verificar si completó todas las pastillas del día seleccionado
+  const selDate=dayDate(pillDay);
+  const pkDay=loadPkFor(selDate);
+  const tot=PS.reduce((a,s)=>a+s.pills.length,0);
+  const chk=Object.values(pkDay).filter(Boolean).length;
+  if(chk>=tot) setTimeout(()=>document.getElementById('cel').classList.add('on'),400);
+}
+function closePillModal(){
+  document.getElementById('pillModal').classList.remove('on');
+  _pillModalCallback=null;
 }
 function closeCel(){document.getElementById('cel').classList.remove('on');pk={};savePk(pk);renderPills();}
 
