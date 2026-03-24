@@ -825,8 +825,11 @@ function renderPills(){
     sec.pills.forEach((p,pi)=>{
       tot++;const k=`${si}-${pi}`;const on=!!pkToday[k];if(on)chk++;
       // Solo permite tildar si es HOY
-      const canCheck=pillDay===0;
-      rows+=`<div class="pr"><div class="pinfo"><div class="pdot" style="background:${p.c}"></div><div><div class="pnr"><span class="pef">${p.e}</span><span class="pn">${p.n}</span></div><div class="pfun">${p.f}</div></div></div><div class="pch${on?' on':''}" ${canCheck?`onclick="tp('${k}')"`:'style="opacity:.5;cursor:default"'}>${on?'✓':''}</div></div>`;
+      const isToday=pillDay===0;
+      const clickHandler=isToday
+        ? `onclick="tp('${k}')"`
+        : `onclick="tpConfirm('${k}', dayDate(${pillDay}))"`;
+      rows+=`<div class="pr"><div class="pinfo"><div class="pdot" style="background:${p.c}"></div><div><div class="pnr"><span class="pef">${p.e}</span><span class="pn">${p.n}</span></div><div class="pfun">${p.f}</div></div></div><div class="pch${on?' on':''}" ${clickHandler}>${on?'✓':''}</div></div>`;
     });
     div.innerHTML=`<div class="psh"><span class="pic2">${sec.i}</span><div><div class="ptl">${sec.t}</div><div class="pts">${sec.pills.map(p=>p.n).join(' · ')}</div></div></div>${rows}`;
     body.appendChild(div);
@@ -842,6 +845,20 @@ function tp(k){
   const tot=PS.reduce((a,s)=>a+s.pills.length,0);
   if(Object.values(pk).filter(Boolean).length===tot)
     setTimeout(()=>document.getElementById('cel').classList.add('on'),400);
+}
+
+// Toca pastilla en día anterior — pregunta confirmación
+function tpConfirm(k, dateObj){
+  const pkDay=loadPkFor(dateObj);
+  const yaEstaba=!!pkDay[k];
+  const msg=yaEstaba
+    ? '¿Seguro que querés desmarcar esta pastilla, papito? 🤔💊'
+    : '¿Estás seguro papito que tomaste la pastillita? 💊🥰';
+  if(confirm(msg)){
+    pkDay[k]=!pkDay[k];
+    savePkFor(dateObj,pkDay);
+    renderPills();
+  }
 }
 function closeCel(){document.getElementById('cel').classList.remove('on');pk={};savePk(pk);renderPills();}
 
