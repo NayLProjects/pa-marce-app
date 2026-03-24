@@ -99,6 +99,10 @@ html,body{width:100%;height:100%;overflow:hidden;background:#f0f0f0;font-family:
 .mau3{font-size:10px;font-weight:800;color:#3d1a78;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
 .mqt3{font-size:14px;font-weight:700;color:#3d1a78;line-height:1.5;font-style:italic}
 .pbody{padding:10px 14px 14px}
+.pill-scroll{display:flex;gap:7px;padding:8px 14px 0;overflow-x:auto;scrollbar-width:none;background:#f5f0ff}
+.pill-scroll::-webkit-scrollbar{display:none}
+.pp{flex-shrink:0;padding:7px 12px;border-radius:999px;cursor:pointer;border:2px solid #ddd;background:#fff;font-size:11px;font-weight:800;color:#888}
+.pp.on{background:linear-gradient(135deg,#a18cd1,#7d3c98);border-color:transparent;color:#fff;box-shadow:0 3px 8px rgba(161,140,209,.4)}
 .psec{background:#fff;border-radius:18px;padding:15px;margin-bottom:12px;box-shadow:0 3px 14px rgba(0,0,0,.07)}
 .psh{display:flex;align-items:center;gap:10px;margin-bottom:12px}
 .pic2{font-size:26px}.ptl{font-size:15px;font-weight:900;color:#1a1a2e}.pts{font-size:11px;color:#999}
@@ -218,7 +222,8 @@ html,body{width:100%;height:100%;overflow:hidden;background:#f0f0f0;font-family:
 
 <!-- S3 PASTILLAS -->
 <div id="s3" class="sc">
-  <div class="s3h"><h2>💊 Control de pastillas</h2><p id="s3d">Hoy: cargando...</p></div>
+  <div class="s3h"><h2>💊 Control de pastillas</h2><p id="s3d">Cargando...</p></div>
+  <div class="pill-scroll" id="pillScroll"></div>
   <div class="motiv3" id="motiv3"></div>
   <div class="pbody" id="pbody"></div>
 </div>
@@ -454,24 +459,112 @@ function renderPesos(){
 
 // ---- DATOS ----
 const MM=[
-  {q:'🎤 ¡The show must go on, Pa! 🎶 Vos sos el show más importante de nuestras vidas. ¡Hoy comés genial! 🌟',a:'— Freddie Mercury'},
+  {q:'🎤 ¡The show must go on, Pa! Vos sos el show más importante de nuestras vidas. ¡Hoy comés genial! 🌟',a:'— Freddie Mercury'},
   {q:'🏛️ No pierdas tiempo argumentando. ¡Sé el mejor hombre que podés ser! Hoy lo estás logrando 💪✨',a:'— Marco Aurelio'},
   {q:'🎸 It\'s my life — it\'s now or never! ¡Hoy es TU día, Pa Marce! ¡Dale que podés! 🔥🚀',a:'— Bon Jovi'},
   {q:'🦉 Conócete a ti mismo. Vos sabés que podés, y nosotros también lo sabemos. ¡Adelante, crack! 💫🎯',a:'— Sócrates'},
   {q:'💃 ¡La vida es bella y hay tanto por vivir! Hoy comés rico y cuidás lo más valioso. ¡Vamos! 🌈❤️',a:'— Shakira'},
   {q:'⚡ ¡Lo que no te mata te hace más fuerte! Cada día de este plan te hace más invencible, Pa. 🦁💪',a:'— Nietzsche'},
   {q:'👑 We are the champions! ¡Y vos, Pa Marce, sos el campeón absoluto de esta familia! 🏆🎊',a:'— Queen'},
-  // Extra para cuando day=-1 (ayer)
-  {q:'🌙 Ayer lo hiciste muy bien, Pa Marce. ¡Cada día cuenta y el de ayer también! Mirá todo lo que lograste. 💪✨',a:'— Tu familia'},
+  {q:'🌙 Ayer lo hiciste muy bien, Pa Marce. ¡Cada día cuenta! Mirá todo lo que ya lograste. 💪✨',a:'— Tu familia'},
+  {q:'🚀 El secreto del éxito es la constancia en el propósito. ¡Y vos lo tenés, Pa! 🎯💛',a:'— Benjamin Disraeli'},
+  {q:'🌅 Cada mañana traés una nueva oportunidad de ser increíble. ¡Hoy es ese día, Pa Marce! ☀️💪',a:'— Tu familia'},
+  {q:'🎵 La música más linda es la de tu corazón latiendo fuerte y sano. ¡Cuidalo hoy! ❤️🎶',a:'— Tu familia'},
+  {q:'🌿 Cuida tu cuerpo. Es el único lugar que tenés para vivir. ¡Y queremos que vivas mucho! 🏡💚',a:'— Jim Rohn'},
+  {q:'🦋 Los grandes cambios empiezan con pequeñas decisiones. Hoy, tu plato es tu poder. 💪🌈',a:'— Tu familia'},
+  {q:'🏅 No es sobre ser perfecto. Es sobre dar el esfuerzo, cada día, sin parar. ¡Eso sos vos! 🤟',a:'— Tu familia'},
+  {q:'🌊 Las olas no paran, y vos tampoco. Cada día sano es una ola que te acerca a la meta. 🏄‍♂️💙',a:'— Tu familia'},
+  {q:'🎯 Un objetivo sin un plan es solo un deseo. Vos tenés el plan y la familia que te banca. 🥰🏆',a:'— Antoine de Saint-Exupéry'},
+  {q:'💎 La salud es la verdadera riqueza, no el oro ni la plata. ¡Hoy te estás enriqueciendo, Pa! 🌟',a:'— Mahatma Gandhi'},
+  {q:'🦁 La valentía no es no tener miedo. Es decidir que algo es más importante. ¡Tu familia lo es! ❤️🔥',a:'— Ambrose Redmoon'},
+  {q:'🌻 El sol sale para todos, pero brillás especial vos cuando elegís comer bien hoy. ☀️😄',a:'— Tu familia'},
+  {q:'🎸 Some days are diamonds, some days are stones. ¡Hoy hacé que sea diamante, Pa! 💎🎶',a:'— John Denver'},
+  {q:'🏃 No importa lo lento que vayas, siempre y cuando no pares. ¡Seguí, Pa Marce! 🚶‍♂️💪',a:'— Confucio'},
+  {q:'🌈 Después de la tormenta siempre sale el sol. ¡Y tu sol está saliendo con cada día sano! ☀️🥰',a:'— Tu familia'},
+  {q:'🎻 La vida es como el violín: hay que practicar para tocar bien. ¡Vos estás practicando! 🎵✨',a:'— Tu familia'},
+  {q:'💡 Primero formás tus hábitos, después tus hábitos te forman a vos. ¡Qué hábito hermoso el tuyo! 🌱💚',a:'— John Dryden'},
+  {q:'🤝 No caminás solo en esto. Tenés cuatro nenas y toda la familia empujando con vos. 💪❤️',a:'— Tu familia'},
+  {q:'🌟 Sos la estrella más brillante de esta familia. ¡Y las estrellas brillan más cuando están sanas! ⭐🥰',a:'— Tu familia'},
+  {q:'🎪 La vida es un circo y vos sos el león más valiente. ¡Rugí fuerte hoy, Pa Marce! 🦁🎊',a:'— Tu familia'},
+  {q:'🏔️ Las montañas no se escalan en un día. Pero cada paso importa. ¡Hoy diste el tuyo! 🥾💙',a:'— Tu familia'},
+  {q:'🌺 Florecés cuando te cuidás. ¡Y qué flor tan hermosa estás siendo, Pa! 🌸💛',a:'— Tu familia'},
+  {q:'🎭 En el teatro de la vida, vos elegís tu papel. ¡Elegiste el de héroe, y lo estás siendo! 🦸‍♂️✨',a:'— Tu familia'},
+  {q:'💫 Las estrellas no compiten entre sí. Cada una brilla en su lugar. ¡Brillá vos, Pa! ⭐🌟',a:'— Tu familia'},
+  {q:'🏋️ La fuerza no viene del cuerpo. Viene de una voluntad indomable. ¡La tuya es increíble! 💪🔥',a:'— Mahatma Gandhi'},
+  {q:'🌍 El mundo es mejor con vos sano y feliz en él. ¡Por eso vale la pena cada esfuerzo! 🌎💚',a:'— Tu familia'},
+  {q:'🎀 Cada día que cuidás tu salud es un regalo que te das a vos y a nosotras. ¡Gracias, Pa! 🎁❤️',a:'— Tu familia'},
+  {q:'🦅 El águila no lucha con la tormenta. Usa el viento para volar más alto. ¡Volá alto hoy! 🌤️💪',a:'— Tu familia'},
+  {q:'🌙 Las noches más oscuras producen las estrellas más brillantes. ¡Ya casi llegás, Pa! ⭐🏆',a:'— Tu familia'},
+  {q:'🎯 Apuntá alto, Pa Marce. Pero recordá que cada comida sana es ya una victoria. 🏅🥗',a:'— Tu familia'},
+  {q:'🌊 No podés controlar las olas pero sí podés aprender a surfearlas. ¡Hoy surfeás genial! 🏄‍♂️😄',a:'— Jon Kabat-Zinn'},
+  {q:'🦊 El que quiere, puede. Y vos querés más que nadie. ¡Se nota en cada día que elegís bien! 💛🌟',a:'— Tu familia'},
+  {q:'🎵 Don\'t stop me now! ¡No pares, Pa, que estás en llamas y nos emocionás a todas! 🔥🎶',a:'— Queen'},
+  {q:'🌱 Un árbol fuerte empezó siendo una semilla pequeña. Vos ya sos un árbol enorme para nosotras. 🌳💚',a:'— Tu familia'},
+  {q:'🏆 Ganar no siempre es llegar primero. A veces es solo no rendirse. ¡Y vos nunca te rendís! 💪🥇',a:'— Bonnie Mace'},
+  {q:'🎸 Livin\' on a prayer — ¡y de tus ganas de mejorar, Pa! Halfway there! 🙏🎶',a:'— Bon Jovi'},
+  {q:'💖 Te queremos tanto que hasta contamos tus verduras. ¡Comé bien hoy, Pa Marce! 🥦😂❤️',a:'— Tu familia'},
+  {q:'🌅 Cada amanecer es una segunda oportunidad. ¡La de hoy es tuya, aprovechala! ☀️✨',a:'— Tu familia'},
+  {q:'🦋 La transformación no es ruidosa. Es silenciosa, día a día. ¡Y la tuya es hermosa! 🌸💙',a:'— Tu familia'},
+  {q:'🎯 Cuando el esfuerzo se convierte en hábito, el hábito se convierte en carácter. ¡Qué carácter el tuyo! 💎🏅',a:'— Tu familia'},
+  {q:'🌿 Come bien, duerme bien, vivís bien. ¡Y nosotras te queremos bien y para siempre! 🥗💚',a:'— Tu familia'},
+  {q:'🔑 La clave no está en hacer grandes cosas. Está en hacer las pequeñas cosas con grandeza. 🌟💪',a:'— Napoleon Hill'},
+  {q:'🎪 ¡Hoy es un gran día para ser Pa Marce! Porque todos los días son grandes cuando sos vos. 🤟🥰',a:'— Tu familia'},
+  {q:'🌺 La perseverancia es la madre del éxito. ¡Y vos sos el padre más perseverante! 🏆💛',a:'— Tu familia'},
+  {q:'🚂 Un tren que nunca para, llega siempre. ¡Vos sos ese tren, Pa! Chhhh chhhh 🚂💨💪',a:'— Tu familia'},
 ];
+
 const MP=[
-  {q:'🫀 Cada pastillita es un superhéroe que cuida tu corazón. ¡Tomálas todas, Pa, que te queremos! 💊❤️',a:'— Hipócrates'},
+  {q:'🫀 Cada pastillita es un superhéroe que cuida tu corazón. ¡Tomálas todas, Pa! 💊❤️',a:'— Hipócrates'},
   {q:'🌟 ¡Cuando querés algo, el universo conspira! Esta familia conspira por vos todos los días. 🙏✨',a:'— Paulo Coelho'},
   {q:'🦁 ¡Todo parece imposible hasta que se hace! Mirá todo lo que ya lograste. ¡Imparable! 💪🔥',a:'— Nelson Mandela'},
   {q:'💡 En la dificultad reside la oportunidad. Cada día sano = más tiempo con los que amás. 💖🌈',a:'— Albert Einstein'},
-  {q:'🔥 El coraje es lo que cuenta. ¡Vos tenés más coraje que nadie, Pa Marce! ¡Seguí adelante! 🚀🏆',a:'— Churchill'},
-  {q:'🌈 ¡Hoy es todo lo que tenemos! Y hoy, Pa, estás eligiendo la salud. ¡Eso es amor propio! 💛🌟',a:'— Madre Teresa'},
-  {q:'🎯 ¡Somos lo que hacemos cada día! Vos estás construyendo el mejor Pa Marce. ¡Orgullosos! 🥰🏅',a:'— Aristóteles'},
+  {q:'🔥 El coraje es lo que cuenta. ¡Vos tenés más coraje que nadie, Pa Marce! 🚀🏆',a:'— Winston Churchill'},
+  {q:'🌈 ¡Hoy es todo lo que tenemos! Y hoy estás eligiendo la salud. ¡Eso es amor propio! 💛🌟',a:'— Madre Teresa'},
+  {q:'🎯 Somos lo que hacemos cada día. ¡Vos estás construyendo el mejor Pa Marce! 🥰🏅',a:'— Aristóteles'},
+  {q:'💊 Una pastillita a la mañana, una al mediodía, tres a la noche. ¡Tu corazón te lo agradece! 🫀✨',a:'— Tu familia'},
+  {q:'🌅 Empezar el día tomando tu medicación es el primer acto de amor propio. ¡Bravo, Pa! ☀️💙',a:'— Tu familia'},
+  {q:'🔬 La medicina moderna es un regalo. ¡Y vos lo estás aprovechando! Cada pastilla importa. 🎁💊',a:'— Tu familia'},
+  {q:'🛡️ Tus pastillas son tu armadura. Con ellas puestas, nada te para. ¡Dale, guerrero! ⚔️💪',a:'— Tu familia'},
+  {q:'🌿 Curar es un arte, pero prevenir es sabiduría. Vos elegís la sabiduría cada día. 🦉💚',a:'— Hipócrates'},
+  {q:'💫 Pequeños actos, grandes resultados. Tres pastillas a la noche, un corazón más fuerte. ❤️✨',a:'— Tu familia'},
+  {q:'🏆 Los campeones tienen rutinas. La tuya incluye pastillas. ¡Eso te hace campeón! 🥇💊',a:'— Tu familia'},
+  {q:'🌊 Así como el agua da vida, tus pastillas sostienen la tuya. ¡Tomalas con orgullo! 💧❤️',a:'— Tu familia'},
+  {q:'🎵 Cada día con tu medicación es una nota en la canción más linda: la de tu salud. 🎶🫀',a:'— Tu familia'},
+  {q:'🦋 La constancia transforma. Pastilla a pastilla, día a día, estás cambiando tu historia. 🌱💛',a:'— Tu familia'},
+  {q:'🌺 El mejor regalo que podés darle a tu familia es estar sano. ¡Cada pastilla es ese regalo! 🎁🥰',a:'— Tu familia'},
+  {q:'🔑 La disciplina es el puente entre metas y logros. Vos cruzás ese puente cada día. 💪🌈',a:'— Jim Rohn'},
+  {q:'⭐ No hay acto pequeño de amor propio. Tomar tus pastillas es un acto enorme. ¡Enorme! 🌟❤️',a:'— Tu familia'},
+  {q:'🏋️ La salud no se compra, se construye. Y vos la estás construyendo ladrillo a ladrillo. 🧱💚',a:'— Tu familia'},
+  {q:'🌙 Terminar el día con las pastillas tomadas es ganar el día. ¡Hoy ganaste, Pa! 🏅✨',a:'— Tu familia'},
+  {q:'🎸 Keep on rockin\' in the free world! ¡Y para rockear hay que estar sano! 🤘💊',a:'— Neil Young'},
+  {q:'💎 Lo que cuidás con constancia, brilla. Tu salud brilla porque vos la cuidás. ✨🫀',a:'— Tu familia'},
+  {q:'🌻 El girasol siempre mira al sol. Vos mirás siempre a tu salud. ¡Eso es hermoso! ☀️💛',a:'— Tu familia'},
+  {q:'🎯 Sin salud no hay nada. Con salud, hay todo. ¡Seguí cuidándola como lo hacés! 🌟💪',a:'— Tu familia'},
+  {q:'🦅 Volar alto requiere estar fuerte. ¡Y vos estás volando alto cada día, Pa Marce! 🌤️🏆',a:'— Tu familia'},
+  {q:'🌍 Queremos explorarlo contigo por mucho tiempo más. ¡Por eso importa cada pastilla! 🌎❤️',a:'— Tu familia'},
+  {q:'🎀 Tus pastillas son pequeñas, pero el amor con que las tomás es gigante. 💊🥰',a:'— Tu familia'},
+  {q:'🔮 El futuro pertenece a los que creen en la belleza de sus sueños. ¡Y al que toma sus pastillas! 😄💙',a:'— Eleanor Roosevelt'},
+  {q:'🌱 Cada pastilla que tomás es una semilla para un mañana mejor. ¡Plantá muchas! 🌿💚',a:'— Tu familia'},
+  {q:'🎪 ¡Hoy el circo está completo porque vos estás sano y presente! Tomá tus pastillas. 🦁💊',a:'— Tu familia'},
+  {q:'💖 Cuatro nenas te miran y aprenden que cuidarse es de valientes. ¡Enseñales bien, Pa! 👧👧👧👶❤️',a:'— Tu familia'},
+  {q:'🏄 Surfeá las olas de la vida con el cuerpo bien cuidado. Tus pastillas son tu tabla. 🌊💊',a:'— Tu familia'},
+  {q:'🌅 El amanecer siempre llega. Y con él, la primera pastilla del día. ¡Buenos días, campeón! ☀️🏆',a:'— Tu familia'},
+  {q:'🎵 La vida es música, y la salud es el ritmo. ¡No pierdas el ritmo, Pa! 🎶🫀',a:'— Tu familia'},
+  {q:'🦊 Astuto y sabio: así sos cuando elegís tu salud cada día. ¡Muy astuto, Pa Marce! 🌟😄',a:'— Tu familia'},
+  {q:'🌺 Florecés cuando te cuidás. Y esta familia florece cuando vos estás bien. 🌸💛',a:'— Tu familia'},
+  {q:'🏔️ La cima más alta se llega paso a paso, pastilla a pastilla, día a día. ¡Ya casi! 🥾🏆',a:'— Tu familia'},
+  {q:'🎭 Sos el protagonista de la historia más importante: la de tu salud. ¡Qué buena historia! 📖💙',a:'— Tu familia'},
+  {q:'💫 No te rindas. Las mejores historias tienen un segundo acto increíble. El tuyo empieza hoy. ✨💪',a:'— Tu familia'},
+  {q:'🌿 La naturaleza sana lentamente pero con seguridad. Y con tus pastillas, más rápido aún. 💚🌱',a:'— Hipócrates'},
+  {q:'🎯 Disciplina es elegir entre lo que querés ahora y lo que querés más. ¡Elegís bien, Pa! 🏅💊',a:'— Abraham Lincoln'},
+  {q:'🌊 Gota a gota se llena el océano. Pastilla a pastilla, se construye la salud. 💙🌊',a:'— Tu familia'},
+  {q:'🦁 El rugido más poderoso es el de un corazón sano. ¡Rugí fuerte, Pa Marce! 🫀🔥',a:'— Tu familia'},
+  {q:'🎸 You\'re the best around! ¡Y los mejores cuidan su salud! Nada te va a tumbar. 🤘💊',a:'— Joe Esposito'},
+  {q:'🌈 Después de cada esfuerzo, viene la recompensa. La tuya se llama salud y familia. 💛🌟',a:'— Tu familia'},
+  {q:'🎀 Cada día que tomás tus pastillas es un lazo que nos une más. ¡Gracias, Pa! 🎁❤️',a:'— Tu familia'},
+  {q:'🚀 Al infinito y más allá, Pa Marce. ¡Con tus pastillas tomadas, nada te detiene! 🌌💊',a:'— Buzz Lightyear'},
+  {q:'💎 Lo que brilla en vos no es el oro. Es tu voluntad de estar bien para nosotras. ✨🥰',a:'— Tu familia'},
+  {q:'🌻 Sol, agua y pastillas. Los tres ingredientes para que Pa Marce florezca. ☀️💧💊',a:'— Tu familia'},
 ];
 
 // ---- POOL DE ENSALADAS ----
@@ -628,7 +721,7 @@ const PS=[
   {t:'Cena',i:'🌙',pills:[{n:'Ezetimibe',e:'🛡️',c:'#a5d6a7',f:'Escudo contra el colesterol'},{n:'Rosuvastatina',e:'⚡',c:'#ffcc80',f:'Energía controlada'},{n:'Prestoklar',e:'🌟',c:'#ce93d8',f:'La estrella de la noche'}]},
 ];
 
-let day=0, cs={}; // day=0 es hoy, day=-1 es ayer
+let day=0, cs={}, pillDay=0; // day/pillDay: 0=hoy, -1=ayer
 let pk=loadPk();
 
 function gc(d,m,i){return(cs[d]&&cs[d][m]&&cs[d][m][i]!=null)?cs[d][m][i]:null;}
@@ -700,24 +793,47 @@ function renderMenu(){
 }
 
 function renderPills(){
-  const t=new Date();
-  document.getElementById('s3d').textContent=`Hoy: ${DAYS[t.getDay()]} ${t.getDate()} ${MONTHS[t.getMonth()]}`;
-  const mp=MP[t.getDay()];
+  // Tabs Ayer / Hoy
+  const ps=document.getElementById('pillScroll');
+  if(ps){
+    ps.innerHTML='';
+    [-1,0].forEach(i=>{
+      const inf=dl(i);
+      const b=document.createElement('button');
+      b.className='pp'+(i===pillDay?' on':'');
+      const lbl=i===-1?'<b style="color:'+(i===pillDay?'#fff':'#ee5a24')+'">Ayer</b>':'<b>Hoy</b>';
+      b.innerHTML=`${lbl}<br><span style="font-size:10px">${inf.d}</span>`;
+      b.onclick=()=>{pillDay=i;renderPills();};
+      ps.appendChild(b);
+    });
+  }
+  // Fecha del día seleccionado
+  const selDate=dayDate(pillDay);
+  const d=selDate;
+  document.getElementById('s3d').textContent=
+    `${pillDay===-1?'Ayer':'Hoy'}: ${DAYS[d.getDay()]} ${d.getDate()} ${MONTHS[d.getMonth()]}`;
+  // Frase — rotar por fecha para que cambie cada día
+  const seed=(d.getFullYear()*10000+(d.getMonth()+1)*100+d.getDate());
+  const mp=MP[seed % MP.length];
   document.getElementById('motiv3').innerHTML=`<div class="mta3"><div class="mau3">Frase del día ✨</div><div class="mqt3">${mp.q}</div><div style="font-size:11px;font-weight:800;color:#5b2d99;margin-top:6px;text-align:right">${mp.a}</div></div>`;
+  // Cargar checks del día seleccionado
+  const pkToday=loadPkFor(selDate);
   const body=document.getElementById('pbody');body.innerHTML='';
   let tot=0,chk=0;
   PS.forEach((sec,si)=>{
     const div=document.createElement('div');div.className='psec';let rows='';
     sec.pills.forEach((p,pi)=>{
-      tot++;const k=`${si}-${pi}`;const on=!!pk[k];if(on)chk++;
-      rows+=`<div class="pr"><div class="pinfo"><div class="pdot" style="background:${p.c}"></div><div><div class="pnr"><span class="pef">${p.e}</span><span class="pn">${p.n}</span></div><div class="pfun">${p.f}</div></div></div><div class="pch${on?' on':''}" onclick="tp('${k}')">${on?'✓':''}</div></div>`;
+      tot++;const k=`${si}-${pi}`;const on=!!pkToday[k];if(on)chk++;
+      // Solo permite tildar si es HOY
+      const canCheck=pillDay===0;
+      rows+=`<div class="pr"><div class="pinfo"><div class="pdot" style="background:${p.c}"></div><div><div class="pnr"><span class="pef">${p.e}</span><span class="pn">${p.n}</span></div><div class="pfun">${p.f}</div></div></div><div class="pch${on?' on':''}" ${canCheck?`onclick="tp('${k}')"`:'style="opacity:.5;cursor:default"'}>${on?'✓':''}</div></div>`;
     });
     div.innerHTML=`<div class="psh"><span class="pic2">${sec.i}</span><div><div class="ptl">${sec.t}</div><div class="pts">${sec.pills.map(p=>p.n).join(' · ')}</div></div></div>${rows}`;
     body.appendChild(div);
   });
   const pct=Math.round(chk/tot*100);const C=2*Math.PI*34;const dash=C*(chk/tot);
   const pw=document.createElement('div');pw.className='prw';
-  pw.innerHTML=`<svg width="88" height="88" viewBox="0 0 88 88"><circle cx="44" cy="44" r="34" fill="none" stroke="#ede0ff" stroke-width="8"/><circle cx="44" cy="44" r="34" fill="none" stroke="#a18cd1" stroke-width="8" stroke-dasharray="${dash.toFixed(1)} ${C.toFixed(1)}" stroke-dashoffset="${(C/4).toFixed(1)}" stroke-linecap="round"/><text x="44" y="49" text-anchor="middle" font-family="Nunito" font-size="17" font-weight="900" fill="#a18cd1">${pct}%</text></svg><div class="prl">💊 Pastillas tomadas hoy</div>`;
+  pw.innerHTML=`<svg width="88" height="88" viewBox="0 0 88 88"><circle cx="44" cy="44" r="34" fill="none" stroke="#ede0ff" stroke-width="8"/><circle cx="44" cy="44" r="34" fill="none" stroke="#a18cd1" stroke-width="8" stroke-dasharray="${dash.toFixed(1)} ${C.toFixed(1)}" stroke-dashoffset="${(C/4).toFixed(1)}" stroke-linecap="round"/><text x="44" y="49" text-anchor="middle" font-family="Nunito" font-size="17" font-weight="900" fill="#a18cd1">${pct}%</text></svg><div class="prl">💊 ${pillDay===0?'Pastillas tomadas hoy':'Pastillas de ayer'}</div>`;
   body.appendChild(pw);
 }
 
