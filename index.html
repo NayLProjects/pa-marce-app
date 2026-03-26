@@ -815,6 +815,8 @@ function renderMenu(){
 }
 
 function renderPills(){
+  // Sincronizar pk con localStorage (siempre fresco)
+  if(pillDay===0) pk=loadPkFor(new Date());
   // Tabs Ayer / Hoy
   const ps=document.getElementById('pillScroll');
   if(ps){
@@ -863,9 +865,13 @@ function renderPills(){
 }
 
 function tp(k){
-  pk[k]=!pk[k];savePk(pk);renderPills();
+  pk[k]=!pk[k];
+  savePk(pk);
+  renderPills();
+  // Verificar con datos frescos del localStorage
+  const pkFresh=loadPkFor(new Date());
   const tot=PS.reduce((a,s)=>a+s.pills.length,0);
-  if(Object.values(pk).filter(Boolean).length===tot)
+  if(Object.values(pkFresh).filter(Boolean).length>=tot)
     setTimeout(()=>document.getElementById('cel').classList.add('on'),400);
 }
 
@@ -905,7 +911,11 @@ function closePillModal(){
   document.getElementById('pillModal').classList.remove('on');
   _pillModalCallback=null;
 }
-function closeCel(){document.getElementById('cel').classList.remove('on');pk={};savePk(pk);renderPills();}
+function closeCel(){
+  document.getElementById('cel').classList.remove('on');
+  // No borramos pk — solo cerramos la celebración
+  renderPills();
+}
 
 // Arrancar
 renderMenu();
